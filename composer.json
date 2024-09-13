@@ -1,0 +1,51 @@
+{
+    "version": "dev-master",
+    "name": "lacodix/sevdesk-saloon",
+    "description": "A PHP package for consuming the SevDesk API based on Saloon",
+    "type": "library",
+    "keywords": [
+        "lacodix",
+        "sevdesk",
+        "api",
+        "laravel"
+    ],
+    "homepage": "https://gitlab.pwhost.de/lacodix/sevdesk-saloon",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dominik Müller",
+            "email": "dominik@lacodix.de",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "saloonphp/saloon": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lacodix\\SevdeskSaloon\\": "src"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "csfixer:test": "php-cs-fixer fix -v",
+        "phpstan:test": "phpstan analyse --ansi",
+        "rector:test": "rector process --ansi",
+        "insights": "phpinsights analyse --ansi -v --no-interaction"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "nunomaduro/phpinsights": "^2.11",
+        "phpstan/phpstan": "^1.12",
+        "rector/rector": "^1.2"
+    }
+}
