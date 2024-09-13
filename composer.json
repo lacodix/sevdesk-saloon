@@ -1,5 +1,4 @@
 {
-    "version": "dev-master",
     "name": "lacodix/sevdesk-saloon",
     "description": "A PHP package for consuming the SevDesk API based on Saloon",
     "type": "library",
