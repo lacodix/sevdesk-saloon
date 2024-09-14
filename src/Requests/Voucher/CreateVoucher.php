@@ -29,18 +29,24 @@ use Saloon\Traits\Body\HasJsonBody;
  * vouchers. If you have to, you can downgrade the status by calling resetToOpen (from paid) and
  * resetToDraft (from open).
  */
-class VoucherFactorySaveVoucher extends Request implements HasBody
+class CreateVoucher extends Request implements HasBody
 {
     use HasJsonBody;
 
     protected Method $method = Method::POST;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected array $data,
+    ) {
     }
 
     public function resolveEndpoint(): string
     {
         return '/Voucher/Factory/saveVoucher';
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

@@ -11,36 +11,23 @@ use Saloon\Http\Response;
 
 class OrderPos extends Resource
 {
-    /**
-     * @param int $orderid Retrieve all order positions belonging to this order. Must be provided with voucher[objectName]
-     * @param string $orderobjectName Only required if order[id] was provided. 'Order' should be used as value.
-     */
-    public function getOrderPositions(?int $orderid, ?string $orderobjectName): Response
+    public function get(?int $orderid = null, ?string $orderobjectName = null): array
     {
-        return $this->connector->send(new GetOrderPositions($orderid, $orderobjectName));
+        return $this->connector->sevSend(new GetOrderPositions($orderid, $orderobjectName));
     }
 
-    /**
-     * @param int $orderPosId ID of order position to return
-     */
-    public function getOrderPositionById(int $orderPosId): Response
+    public function getById(int $orderPosId): array
     {
-        return $this->connector->send(new GetOrderPositionById($orderPosId));
+        return $this->connector->sevSend(new GetOrderPositionById($orderPosId));
     }
 
-    /**
-     * @param int $orderPosId ID of order position to update
-     */
-    public function updateOrderPosition(int $orderPosId): Response
+    public function update(int $orderPosId, array $data): array
     {
-        return $this->connector->send(new UpdateOrderPosition($orderPosId));
+        return $this->connector->sevSend(new UpdateOrderPosition($orderPosId, $data));
     }
-
-    /**
-     * @param int $orderPosId Id of order position resource to delete
-     */
-    public function deleteOrderPos(int $orderPosId): Response
+    
+    public function delete(int $orderPosId): array
     {
-        return $this->connector->send(new DeleteOrderPos($orderPosId));
+        return $this->connector->sevSend(new DeleteOrderPos($orderPosId));
     }
 }

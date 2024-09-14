@@ -12,40 +12,28 @@ use Saloon\Http\Response;
 
 class Layout extends Resource
 {
-    public function getLetterpapersWithThumb(): Response
+    public function getLetterpapers(): array
     {
-        return $this->connector->send(new GetLetterpapersWithThumb());
+        return $this->connector->send(new GetLetterpapersWithThumb())->json()['letterpapers'];
     }
 
-    /**
-     * @param string $type Type of the templates you want to get.
-     */
-    public function getTemplates(?string $type): Response
+    public function getTemplates(?string $type): array
     {
-        return $this->connector->send(new GetTemplates($type));
+        return $this->connector->send(new GetTemplates($type))->json()['templates'];
     }
 
-    /**
-     * @param int $invoiceId ID of invoice to update
-     */
-    public function updateInvoiceTemplate(int $invoiceId): Response
+    public function updateInvoiceTemplate(int $invoiceId, array $data): array
     {
-        return $this->connector->send(new UpdateInvoiceTemplate($invoiceId));
+        return $this->connector->sevSend(new UpdateInvoiceTemplate($invoiceId));
     }
 
-    /**
-     * @param int $orderId ID of order to update
-     */
-    public function updateOrderTemplate(int $orderId): Response
+    public function updateOrderTemplate(int $orderId, array $data): array
     {
-        return $this->connector->send(new UpdateOrderTemplate($orderId));
+        return $this->connector->sevSend(new UpdateOrderTemplate($orderId, $data));
     }
 
-    /**
-     * @param int $creditNoteId ID of credit note to update
-     */
-    public function updateCreditNoteTemplate(int $creditNoteId): Response
+    public function updateCreditNoteTemplate(int $creditNoteId, array $data): array
     {
-        return $this->connector->send(new UpdateCreditNoteTemplate($creditNoteId));
+        return $this->connector->sevSend(new UpdateCreditNoteTemplate($creditNoteId, $data));
     }
 }

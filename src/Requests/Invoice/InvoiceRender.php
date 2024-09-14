@@ -28,11 +28,17 @@ class InvoiceRender extends Request implements HasBody
      */
     public function __construct(
         protected int $invoiceId,
+        protected array $data,
     ) {
     }
 
     public function resolveEndpoint(): string
     {
         return "/Invoice/{$this->invoiceId}/render";
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

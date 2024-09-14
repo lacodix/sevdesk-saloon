@@ -17,15 +17,15 @@ class CreatePackingListFromOrder extends Request implements HasBody
     use HasJsonBody;
 
     protected Method $method = Method::POST;
+    protected array $data;
 
-    /**
-     * @param int $orderid the id of the order
-     * @param string $orderobjectName Model name, which is 'Order'
-     */
     public function __construct(
         protected int $orderid,
-        protected string $orderobjectName,
     ) {
+        $this->data['order'] = [
+            'id' => $invoiceId,
+            'objectName' => 'Order',
+        ];
     }
 
     public function resolveEndpoint(): string
@@ -33,8 +33,8 @@ class CreatePackingListFromOrder extends Request implements HasBody
         return '/Order/Factory/createPackingListFromOrder';
     }
 
-    public function defaultQuery(): array
+    public function defaultBody(): array
     {
-        return array_filter(['order[id]' => $this->orderid, 'order[objectName]' => $this->orderobjectName]);
+        return $this->data;
     }
 }

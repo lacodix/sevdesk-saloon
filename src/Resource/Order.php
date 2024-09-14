@@ -28,120 +28,74 @@ class Order extends Resource
      * @param int $contactid Retrieve all orders with this contact. Must be provided with contact[objectName]
      * @param string $contactobjectName Only required if contact[id] was provided. 'Contact' should be used as value.
      */
-    public function getOrders(
-        ?int $status,
-        ?string $orderNumber,
-        ?int $startDate,
-        ?int $endDate,
-        ?int $contactid,
-        ?string $contactobjectName,
-    ): Response {
-        return $this->connector->send(new GetOrders($status, $orderNumber, $startDate, $endDate, $contactid, $contactobjectName));
+    public function get(
+        ?int $status = null,
+        ?string $orderNumber = null,
+        ?int $startDate = null,
+        ?int $endDate = null,
+        ?int $contactid = null,
+        ?string $contactobjectName = null,
+    ): array {
+        return $this->connector->sevSend(new GetOrders($status, $orderNumber, $startDate, $endDate, $contactid, $contactobjectName));
     }
 
-    public function createOrder(): Response
+    public function create(int $contactId, array $data): array
     {
-        return $this->connector->send(new CreateOrder());
+        return $this->connector->sevSend(new CreateOrder($contactId, $data));
     }
 
-    /**
-     * @param int $orderId ID of order to return
-     */
-    public function getOrderById(int $orderId): Response
+    public function getById(int $orderId): array
     {
-        return $this->connector->send(new GetOrderById($orderId));
+        return $this->connector->sevSend(new GetOrderById($orderId));
     }
 
-    /**
-     * @param int $orderId ID of order to update
-     */
-    public function updateOrder(int $orderId): Response
+    public function update(int $orderId, array $data): array
     {
-        return $this->connector->send(new UpdateOrder($orderId));
+        return $this->connector->sevSend(new UpdateOrder($orderId, $data));
     }
 
-    /**
-     * @param int $orderId Id of order resource to delete
-     */
-    public function deleteOrder(int $orderId): Response
+    public function delete(int $orderId): array
     {
-        return $this->connector->send(new DeleteOrder($orderId));
+        return $this->connector->sevSend(new DeleteOrder($orderId));
     }
 
-    /**
-     * @param int $orderId ID of order to return the positions
-     * @param int $limit limits the number of entries returned
-     * @param int $offset set the index where the returned entries start
-     * @param array $embed Get some additional information. Embed can handle multiple values, they must be separated by comma.
-     */
-    public function getOrderPositionsById(int $orderId, ?int $limit, ?int $offset, ?array $embed): Response
+    public function getPositions(int $orderId, ?int $limit = null, ?int $offset = null, ?array $embed = null): array
     {
-        return $this->connector->send(new GetOrderPositionsById($orderId, $limit, $offset, $embed));
+        return $this->connector->sevSend(new GetOrderPositionsById($orderId, $limit, $offset, $embed));
     }
 
-    /**
-     * @param int $orderId ID of order to return the positions
-     * @param int $limit limits the number of entries returned
-     * @param int $offset set the index where the returned entries start
-     * @param array $embed Get some additional information. Embed can handle multiple values, they must be separated by comma.
-     */
-    public function getDiscounts(int $orderId, ?int $limit, ?int $offset, ?array $embed): Response
+    public function getDiscounts(int $orderId, ?int $limit = null, ?int $offset = null, ?array $embed = null): array
     {
-        return $this->connector->send(new GetDiscounts($orderId, $limit, $offset, $embed));
+        return $this->connector->sevSend(new GetDiscounts($orderId, $limit, $offset, $embed));
     }
 
-    /**
-     * @param int $orderId ID of order to return the positions
-     * @param bool $includeItself Define if the related objects include the order itself
-     * @param bool $sortByType Define if you want the related objects sorted by type
-     * @param array $embed Get some additional information. Embed can handle multiple values, they must be separated by comma.
-     */
-    public function getRelatedObjects(int $orderId, ?bool $includeItself, ?bool $sortByType, ?array $embed): Response
+    public function getRelatedObjects(int $orderId, ?bool $includeItself = null, ?bool $sortByType = null, ?array $embed = null): array
     {
-        return $this->connector->send(new GetRelatedObjects($orderId, $includeItself, $sortByType, $embed));
+        return $this->connector->sevSend(new GetRelatedObjects($orderId, $includeItself, $sortByType, $embed));
     }
 
-    /**
-     * @param int $orderId ID of order to be sent via email
-     */
-    public function sendorderViaEmail(int $orderId): Response
+    public function sendViaEmail(int $orderId, array $data): array
     {
-        return $this->connector->send(new SendorderViaEmail($orderId));
+        return $this->connector->sevSend(new SendorderViaEmail($orderId, $data));
     }
 
-    /**
-     * @param int $orderid the id of the order
-     * @param string $orderobjectName Model name, which is 'Order'
-     */
-    public function createPackingListFromOrder(int $orderid, string $orderobjectName): Response
+    public function createPackingListFromOrder(int $orderid): array
     {
-        return $this->connector->send(new CreatePackingListFromOrder($orderid, $orderobjectName));
+        return $this->connector->sevSend(new CreatePackingListFromOrder($orderid));
     }
 
-    /**
-     * @param int $orderid the id of the order
-     * @param string $orderobjectName Model name, which is 'Order'
-     */
-    public function createContractNoteFromOrder(int $orderid, string $orderobjectName): Response
+    public function createContractNoteFromOrder(int $orderid): array
     {
-        return $this->connector->send(new CreateContractNoteFromOrder($orderid, $orderobjectName));
+        return $this->connector->sevSend(new CreateContractNoteFromOrder($orderid));
     }
 
-    /**
-     * @param int $orderId ID of order from which you want the pdf
-     * @param bool $download If u want to download the pdf of the order.
-     * @param bool $preventSendBy Defines if u want to send the order.
-     */
-    public function orderGetPdf(int $orderId, ?bool $download, ?bool $preventSendBy): Response
+    public function getPdf(int $orderId, ?bool $download = null, ?bool $preventSendBy = null): array
     {
-        return $this->connector->send(new OrderGetPdf($orderId, $download, $preventSendBy));
+        return $this->connector->send(new OrderGetPdf($orderId, $download, $preventSendBy))->json();;
     }
 
-    /**
-     * @param int $orderId ID of order to mark as sent
-     */
-    public function orderSendBy(int $orderId): Response
+    public function sendBy(int $orderId, array $data): array
     {
-        return $this->connector->send(new OrderSendBy($orderId));
+        return $this->connector->sevSend(new OrderSendBy($orderId, $data));
     }
 }

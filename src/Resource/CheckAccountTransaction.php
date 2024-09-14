@@ -24,54 +24,42 @@ class CheckAccountTransaction extends Resource
      * @param bool $onlyCredit Only retrieve credit transactions
      * @param bool $onlyDebit Only retrieve debit transactions
      */
-    public function getTransactions(
-        ?int $checkAccountid,
-        ?string $checkAccountobjectName,
-        ?bool $isBooked,
-        ?string $paymtPurpose,
-        ?string $startDate,
-        ?string $endDate,
-        ?string $payeePayerName,
-        ?bool $onlyCredit,
-        ?bool $onlyDebit,
-    ): Response {
-        return $this->connector->send(new GetTransactions($checkAccountid, $checkAccountobjectName, $isBooked, $paymtPurpose, $startDate, $endDate, $payeePayerName, $onlyCredit, $onlyDebit));
+    public function get(
+        ?int $checkAccountid = null,
+        ?string $checkAccountobjectName = null,
+        ?bool $isBooked = null,
+        ?string $paymtPurpose = null,
+        ?string $startDate = null,
+        ?string $endDate = null,
+        ?string $payeePayerName = null,
+        ?bool $onlyCredit = null,
+        ?bool $onlyDebit = null,
+    ): array {
+        return $this->connector->sevSend(new GetTransactions($checkAccountid, $checkAccountobjectName, $isBooked, $paymtPurpose, $startDate, $endDate, $payeePayerName, $onlyCredit, $onlyDebit));
     }
 
-    public function createTransaction(): Response
+    public function create(int $checkAccountId, array $data): array
     {
-        return $this->connector->send(new CreateTransaction());
+        return $this->connector->sevSend(new CreateTransaction($checkAccountId, $data));
     }
 
-    /**
-     * @param int $checkAccountTransactionId ID of check account transaction
-     */
-    public function getCheckAccountTransactionById(int $checkAccountTransactionId): Response
+    public function getById(int $checkAccountTransactionId): array
     {
-        return $this->connector->send(new GetCheckAccountTransactionById($checkAccountTransactionId));
+        return $this->connector->sevSend(new GetCheckAccountTransactionById($checkAccountTransactionId));
     }
 
-    /**
-     * @param int $checkAccountTransactionId ID of check account to update transaction
-     */
-    public function updateCheckAccountTransaction(int $checkAccountTransactionId): Response
+    public function update(int $checkAccountTransactionId, array $data): array
     {
-        return $this->connector->send(new UpdateCheckAccountTransaction($checkAccountTransactionId));
+        return $this->connector->sevSend(new UpdateCheckAccountTransaction($checkAccountTransactionId, $data));
     }
 
-    /**
-     * @param int $checkAccountTransactionId Id of check account transaction to delete
-     */
-    public function deleteCheckAccountTransaction(int $checkAccountTransactionId): Response
+    public function delete(int $checkAccountTransactionId): array
     {
-        return $this->connector->send(new DeleteCheckAccountTransaction($checkAccountTransactionId));
+        return $this->connector->sevSend(new DeleteCheckAccountTransaction($checkAccountTransactionId));
     }
 
-    /**
-     * @param int $checkAccountTransactionId ID of the transaction to enshrine
-     */
-    public function checkAccountTransactionEnshrine(int $checkAccountTransactionId): Response
+    public function enshrine(int $checkAccountTransactionId): array
     {
-        return $this->connector->send(new CheckAccountTransactionEnshrine($checkAccountTransactionId));
+        return $this->connector->sevSend(new CheckAccountTransactionEnshrine($checkAccountTransactionId));
     }
 }

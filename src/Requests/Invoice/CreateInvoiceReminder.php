@@ -17,15 +17,19 @@ class CreateInvoiceReminder extends Request implements HasBody
     use HasJsonBody;
 
     protected Method $method = Method::POST;
+    protected array $data;
 
     /**
-     * @param int $invoiceid the id of the invoice
+     * @param int $invoiceId the id of the invoice
      * @param string $invoiceobjectName Model name, which is 'Invoice'
      */
     public function __construct(
-        protected int $invoiceid,
-        protected string $invoiceobjectName,
+        protected int $invoiceId,
     ) {
+        $this->data['invoice'] = [
+            'id' => $invoiceId,
+            'objectName' => 'Invoice',
+        ];
     }
 
     public function resolveEndpoint(): string
@@ -33,8 +37,8 @@ class CreateInvoiceReminder extends Request implements HasBody
         return '/Invoice/Factory/createInvoiceReminder';
     }
 
-    public function defaultQuery(): array
+    public function defaultBody(): array
     {
-        return array_filter(['invoice[id]' => $this->invoiceid, 'invoice[objectName]' => $this->invoiceobjectName]);
+        return $this->data;
     }
 }

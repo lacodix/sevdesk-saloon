@@ -18,12 +18,23 @@ class CreateTransaction extends Request implements HasBody
 
     protected Method $method = Method::POST;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected int $checkAccountId,
+        protected array $data
+    ) {
+        $this->data['checkAccount'] = [
+            'id' => $checkAccountId,
+            'objectName' => 'CheckAccount',
+        ];
     }
 
     public function resolveEndpoint(): string
     {
         return '/CheckAccountTransaction';
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

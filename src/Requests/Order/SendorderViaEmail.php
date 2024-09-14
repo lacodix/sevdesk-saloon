@@ -27,11 +27,17 @@ class SendorderViaEmail extends Request implements HasBody
      */
     public function __construct(
         protected int $orderId,
+        protected array $data,
     ) {
     }
 
     public function resolveEndpoint(): string
     {
         return "/Order/{$this->orderId}/sendViaEmail";
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

@@ -18,12 +18,23 @@ class CreateInvoiceFromOrder extends Request implements HasBody
 
     protected Method $method = Method::POST;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected int $orderId,
+        protected array $data,
+    ) {
+        $this->data['order'] = [
+            'id' => $orderId,
+            'objectName' => 'Order',
+        ];
     }
 
     public function resolveEndpoint(): string
     {
         return '/Invoice/Factory/createInvoiceFromOrder';
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

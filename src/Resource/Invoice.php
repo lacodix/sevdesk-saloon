@@ -4,7 +4,7 @@ namespace Lacodix\SevdeskSaloon\Resource;
 
 use Lacodix\SevdeskSaloon\Requests\Invoice\BookInvoice;
 use Lacodix\SevdeskSaloon\Requests\Invoice\CancelInvoice;
-use Lacodix\SevdeskSaloon\Requests\Invoice\CreateInvoiceByFactory;
+use Lacodix\SevdeskSaloon\Requests\Invoice\CreateInvoice;
 use Lacodix\SevdeskSaloon\Requests\Invoice\CreateInvoiceFromOrder;
 use Lacodix\SevdeskSaloon\Requests\Invoice\CreateInvoiceReminder;
 use Lacodix\SevdeskSaloon\Requests\Invoice\GetInvoiceById;
@@ -24,141 +24,96 @@ use Saloon\Http\Response;
 class Invoice extends Resource
 {
     /**
-     * @param float|int $status Status of the invoices
+     * @param int $status Status of the invoices
      * @param string $invoiceNumber Retrieve all invoices with this invoice number
      * @param int $startDate Retrieve all invoices with a date equal or higher
      * @param int $endDate Retrieve all invoices with a date equal or lower
      * @param int $contactid Retrieve all invoices with this contact. Must be provided with contact[objectName]
      * @param string $contactobjectName Only required if contact[id] was provided. 'Contact' should be used as value.
      */
-    public function getInvoices(
-        float|int|null $status = null,
+    public function get(
+        ?int $status = null,
         ?string $invoiceNumber = null,
         ?int $startDate = null,
         ?int $endDate = null,
         ?int $contactid = null,
         ?string $contactobjectName = null,
-    ): Response {
-        return $this->connector->send(new GetInvoices($status, $invoiceNumber, $startDate, $endDate, $contactid, $contactobjectName));
+    ): array {
+        return $this->connector->sevSend(new GetInvoices($status, $invoiceNumber, $startDate, $endDate, $contactid, $contactobjectName));
     }
 
-    public function createInvoiceByFactory(): Response
+    public function create(int $contactId, array $data): array
     {
-        return $this->connector->send(new CreateInvoiceByFactory());
+        return $this->connector->sevSend(new CreateInvoice($contactId, $data));
     }
 
-    /**
-     * @param int $invoiceId ID of invoice to return
-     */
-    public function getInvoiceById(int $invoiceId): Response
+    public function getById(int $invoiceId): array
     {
-        return $this->connector->send(new GetInvoiceById($invoiceId));
+        return $this->connector->sevSend(new GetInvoiceById($invoiceId));
     }
 
-    /**
-     * @param int $invoiceId ID of invoice to return the positions
-     * @param int $limit limits the number of entries returned
-     * @param int $offset set the index where the returned entries start
-     * @param array $embed Get some additional information. Embed can handle multiple values, they must be separated by comma.
-     */
-    public function getInvoicePositionsById(int $invoiceId, ?int $limit, ?int $offset, ?array $embed): Response
+    public function getPositions(int $invoiceId, ?int $limit = null, ?int $offset = null, ?array $embed = null): array
     {
-        return $this->connector->send(new GetInvoicePositionsById($invoiceId, $limit, $offset, $embed));
+        return $this->connector->sevSend(new GetInvoicePositionsById($invoiceId, $limit, $offset, $embed));
     }
 
-    public function createInvoiceFromOrder(): Response
+    public function createFromOrder(int $orderId, array $data): array
     {
-        return $this->connector->send(new CreateInvoiceFromOrder());
+        return $this->connector->sevSend(new CreateInvoiceFromOrder($orderId, $data));
     }
 
-    /**
-     * @param int $invoiceid the id of the invoice
-     * @param string $invoiceobjectName Model name, which is 'Invoice'
-     */
-    public function createInvoiceReminder(int $invoiceid, string $invoiceobjectName): Response
+    public function createReminder(int $invoiceid): array
     {
-        return $this->connector->send(new CreateInvoiceReminder($invoiceid, $invoiceobjectName));
+        return $this->connector->sevSend(new CreateInvoiceReminder($invoiceid));
     }
 
-    /**
-     * @param int $invoiceId ID of invoice to return
-     */
-    public function getIsInvoicePartiallyPaid(int $invoiceId): Response
+    public function isPartiallyPaid(int $invoiceId): array
     {
-        return $this->connector->send(new GetIsInvoicePartiallyPaid($invoiceId));
+        return $this->connector->sevSend(new GetIsInvoicePartiallyPaid($invoiceId));
     }
 
-    /**
-     * @param int $invoiceId ID of invoice to be cancelled
-     */
-    public function cancelInvoice(int $invoiceId): Response
+    public function cancel(int $invoiceId): array
     {
-        return $this->connector->send(new CancelInvoice($invoiceId));
+        return $this->connector->sevSend(new CancelInvoice($invoiceId));
     }
 
-    /**
-     * @param int $invoiceId ID of invoice to render
-     */
-    public function invoiceRender(int $invoiceId): Response
+    public function render(int $invoiceId, array $data = []): array
     {
-        return $this->connector->send(new InvoiceRender($invoiceId));
+        return $this->connector->sevSend(new InvoiceRender($invoiceId, $data));
     }
 
-    /**
-     * @param int $invoiceId ID of invoice to be sent via email
-     */
-    public function sendInvoiceViaEmail(int $invoiceId): Response
+    public function sendViaEmail(int $invoiceId, array $data): array
     {
-        return $this->connector->send(new SendInvoiceViaEmail($invoiceId));
+        return $this->connector->sevSend(new SendInvoiceViaEmail($invoiceId, $data));
     }
 
-    /**
-     * @param int $invoiceId ID of invoice from which you want the pdf
-     * @param bool $download If u want to download the pdf of the invoice.
-     * @param bool $preventSendBy Defines if u want to send the invoice.
-     */
-    public function invoiceGetPdf(int $invoiceId, ?bool $download, ?bool $preventSendBy): Response
+    public function getPdf(int $invoiceId, ?bool $download = null, ?bool $preventSendBy = null): array
     {
-        return $this->connector->send(new InvoiceGetPdf($invoiceId, $download, $preventSendBy));
+        return $this->connector->send(new InvoiceGetPdf($invoiceId, $download, $preventSendBy))->json();
     }
 
-    /**
-     * @param int $invoiceId ID of invoice to mark as sent
-     */
-    public function invoiceSendBy(int $invoiceId): Response
+    public function sendBy(int $invoiceId, array $data): array
     {
-        return $this->connector->send(new InvoiceSendBy($invoiceId));
+        return $this->connector->sevSend(new InvoiceSendBy($invoiceId, $array));
     }
 
-    /**
-     * @param int $invoiceId ID of the invoice to enshrine
-     */
-    public function invoiceEnshrine(int $invoiceId): Response
+    public function enshrine(int $invoiceId): array
     {
-        return $this->connector->send(new InvoiceEnshrine($invoiceId));
+        return $this->connector->sevSend(new InvoiceEnshrine($invoiceId));
     }
 
-    /**
-     * @param int $invoiceId ID of invoice to book
-     */
-    public function bookInvoice(int $invoiceId): Response
+    public function book(int $invoiceId, array $data): array
     {
-        return $this->connector->send(new BookInvoice($invoiceId));
+        return $this->connector->sevSend(new BookInvoice($invoiceId, $data));
     }
 
-    /**
-     * @param int $invoiceId ID of the invoice to reset
-     */
-    public function invoiceResetToOpen(int $invoiceId): Response
+    public function resetToOpen(int $invoiceId): array
     {
-        return $this->connector->send(new InvoiceResetToOpen($invoiceId));
+        return $this->connector->sevSend(new InvoiceResetToOpen($invoiceId));
     }
 
-    /**
-     * @param int $invoiceId ID of the invoice to reset
-     */
-    public function invoiceResetToDraft(int $invoiceId): Response
+    public function resetToDraft(int $invoiceId): array
     {
-        return $this->connector->send(new InvoiceResetToDraft($invoiceId));
+        return $this->connector->sevSend(new InvoiceResetToDraft($invoiceId));
     }
 }

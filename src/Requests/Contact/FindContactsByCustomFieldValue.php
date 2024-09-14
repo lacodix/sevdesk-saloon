@@ -22,9 +22,9 @@ class FindContactsByCustomFieldValue extends Request
      */
     public function __construct(
         protected string $value,
-        protected ?string $customFieldSettingid,
-        protected ?string $customFieldSettingobjectName,
-        protected string $customFieldName,
+        protected ?string $customFieldName = null,
+        protected ?string $customFieldSettingid = null,
+        protected ?string $customFieldSettingobjectName = null,
     ) {
     }
 

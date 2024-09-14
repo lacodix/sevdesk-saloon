@@ -12,41 +12,28 @@ use Saloon\Http\Response;
 
 class Part extends Resource
 {
-    /**
-     * @param string $partNumber Retrieve all parts with this part number
-     * @param string $name Retrieve all parts with this name
-     */
-    public function getParts(?string $partNumber, ?string $name): Response
+    public function get(?string $partNumber, ?string $name): array
     {
-        return $this->connector->send(new GetParts($partNumber, $name));
+        return $this->connector->sevSend(new GetParts($partNumber, $name));
     }
 
-    public function createPart(): Response
+    public function create(array $data): array
     {
-        return $this->connector->send(new CreatePart());
+        return $this->connector->sevSend(new CreatePart($data));
     }
 
-    /**
-     * @param int $partId ID of part to return
-     */
-    public function getPartById(int $partId): Response
+    public function getById(int $partId): array
     {
-        return $this->connector->send(new GetPartById($partId));
+        return $this->connector->sevSend(new GetPartById($partId));
     }
 
-    /**
-     * @param int $partId ID of part to update
-     */
-    public function updatePart(int $partId): Response
+    public function update(int $partId, array $data): array
     {
-        return $this->connector->send(new UpdatePart($partId));
+        return $this->connector->sevSend(new UpdatePart($partId, $data));
     }
 
-    /**
-     * @param int $partId ID of part for which you want the current stock.
-     */
-    public function partGetStock(int $partId): Response
+    public function getStock(int $partId): array
     {
-        return $this->connector->send(new PartGetStock($partId));
+        return $this->connector->sevSend(new PartGetStock($partId));
     }
 }

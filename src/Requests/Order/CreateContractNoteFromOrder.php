@@ -18,14 +18,13 @@ class CreateContractNoteFromOrder extends Request implements HasBody
 
     protected Method $method = Method::POST;
 
-    /**
-     * @param int $orderid the id of the order
-     * @param string $orderobjectName Model name, which is 'Order'
-     */
     public function __construct(
         protected int $orderid,
-        protected string $orderobjectName,
     ) {
+        $this->data['order'] = [
+            'id' => $invoiceId,
+            'objectName' => 'Order',
+        ];
     }
 
     public function resolveEndpoint(): string
@@ -33,8 +32,8 @@ class CreateContractNoteFromOrder extends Request implements HasBody
         return '/Order/Factory/createContractNoteFromOrder';
     }
 
-    public function defaultQuery(): array
+    public function defaultBody(): array
     {
-        return array_filter(['order[id]' => $this->orderid, 'order[objectName]' => $this->orderobjectName]);
+        return $this->data;
     }
 }

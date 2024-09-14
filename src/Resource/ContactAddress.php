@@ -12,37 +12,28 @@ use Saloon\Http\Response;
 
 class ContactAddress extends Resource
 {
-    public function getContactAddresses(): Response
+    public function get(): array
     {
-        return $this->connector->send(new GetContactAddresses());
+        return $this->connector->sevSend(new GetContactAddresses());
     }
 
-    public function createContactAddress(): Response
+    public function create(int $contactId, array $data): array
     {
-        return $this->connector->send(new CreateContactAddress());
+        return $this->connector->sevSend(new CreateContactAddress($contactId, $data));
     }
 
-    /**
-     * @param int $contactAddressId ID of contact address to return
-     */
-    public function contactAddressId(int $contactAddressId): Response
+    public function getById(int $contactAddressId): array
     {
-        return $this->connector->send(new ContactAddressId($contactAddressId));
+        return $this->connector->sevSend(new ContactAddressId($contactAddressId));
     }
 
-    /**
-     * @param int $contactAddressId ID of contact address to return
-     */
-    public function updateContactAddress(int $contactAddressId): Response
+    public function update(int $contactAddressId, array $data): array
     {
-        return $this->connector->send(new UpdateContactAddress($contactAddressId));
+        return $this->connector->sevSend(new UpdateContactAddress($contactAddressId, $data));
     }
 
-    /**
-     * @param int $contactAddressId Id of contact address resource to delete
-     */
-    public function deleteContactAddress(int $contactAddressId): Response
+    public function delete(int $contactAddressId): array
     {
-        return $this->connector->send(new DeleteContactAddress($contactAddressId));
+        return $this->connector->sevSend(new DeleteContactAddress($contactAddressId));
     }
 }

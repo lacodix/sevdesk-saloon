@@ -19,46 +19,37 @@ class CommunicationWay extends Resource
      * @param string $type Type of the communication ways you want to get.
      * @param string $main Define if you only want the main communication way.
      */
-    public function getCommunicationWays(
-        ?string $contactid,
-        ?string $contactobjectName,
-        ?string $type,
-        ?string $main,
-    ): Response {
-        return $this->connector->send(new GetCommunicationWays($contactid, $contactobjectName, $type, $main));
+    public function get(
+        ?string $contactid = null,
+        ?string $contactobjectName = null,
+        ?string $type = null,
+        ?string $main = null,
+    ): array {
+        return $this->connector->sevSend(new GetCommunicationWays($contactid, $contactobjectName, $type, $main));
     }
 
-    public function createCommunicationWay(): Response
+    public function create(int $contactid, array $data): array
     {
-        return $this->connector->send(new CreateCommunicationWay());
+        return $this->connector->sevSend(new CreateCommunicationWay($contactid, $data));
     }
 
-    /**
-     * @param int $communicationWayId ID of communication way to return
-     */
-    public function getCommunicationWayById(int $communicationWayId): Response
+    public function getById(int $communicationWayId): array
     {
-        return $this->connector->send(new GetCommunicationWayById($communicationWayId));
+        return $this->connector->sevSend(new GetCommunicationWayById($communicationWayId));
     }
 
-    /**
-     * @param int $communicationWayId ID of CommunicationWay to update
-     */
-    public function updateCommunicationWay(int $communicationWayId): Response
+    public function update(int $communicationWayId, array $data): array
     {
-        return $this->connector->send(new UpdateCommunicationWay($communicationWayId));
+        return $this->connector->sevSend(new UpdateCommunicationWay($communicationWayId, $data));
     }
 
-    /**
-     * @param int $communicationWayId Id of communication way resource to delete
-     */
-    public function deleteCommunicationWay(int $communicationWayId): Response
+    public function delete(int $communicationWayId): array
     {
-        return $this->connector->send(new DeleteCommunicationWay($communicationWayId));
+        return $this->connector->sevSend(new DeleteCommunicationWay($communicationWayId));
     }
 
-    public function getCommunicationWayKeys(): Response
+    public function getKeys(): array
     {
-        return $this->connector->send(new GetCommunicationWayKeys());
+        return $this->connector->sevSend(new GetCommunicationWayKeys());
     }
 }

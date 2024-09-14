@@ -14,11 +14,8 @@ class GetContactFieldsById extends Request
 {
     protected Method $method = Method::GET;
 
-    /**
-     * @param float|int $contactCustomFieldId id of the contact field
-     */
     public function __construct(
-        protected float|int $contactCustomFieldId,
+        protected int $contactCustomFieldId,
     ) {
     }
 

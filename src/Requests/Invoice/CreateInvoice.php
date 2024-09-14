@@ -49,18 +49,29 @@ use Saloon\Traits\Body\HasJsonBody;
  * being later than the <b>invoiceDate</b>.<br> To do that you will need to create a so called
  * <b>Abschlagsrechnung</b> by setting the <b>invoiceType</b> parameter to <b>AR</b>.
  */
-class CreateInvoiceByFactory extends Request implements HasBody
+class CreateInvoice extends Request implements HasBody
 {
     use HasJsonBody;
 
     protected Method $method = Method::POST;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected int $contactId,
+        protected array $data,
+    ) {
+        $this->data['contact'] = [
+            'id' => $contactId,
+            'objectName' => 'Contact',
+        ];
     }
 
     public function resolveEndpoint(): string
     {
         return '/Invoice/Factory/saveInvoice';
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

@@ -2,8 +2,10 @@
 
 namespace Lacodix\SevdeskSaloon\Requests\CreditNote;
 
+use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Traits\Body\HasJsonBody;
 
 /**
  * bookCreditNote
@@ -15,8 +17,10 @@ use Saloon\Http\Request;
  * href='#tag/Invoice/How-to-book-an-invoice'>invoice chapter</a> and all you need to do is to change
  * "Invoice" into "CreditNote" in the URL.
  */
-class BookCreditNote extends Request
+class BookCreditNote extends Request implements HasBody
 {
+    use HasJsonBody;
+
     protected Method $method = Method::PUT;
 
     /**
@@ -24,11 +28,17 @@ class BookCreditNote extends Request
      */
     public function __construct(
         protected int $creditNoteId,
+        protected array $data,
     ) {
     }
 
     public function resolveEndpoint(): string
     {
         return "/CreditNote/{$this->creditNoteId}/bookAmount";
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

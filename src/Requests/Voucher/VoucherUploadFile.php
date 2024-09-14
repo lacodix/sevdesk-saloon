@@ -3,9 +3,10 @@
 namespace Lacodix\SevdeskSaloon\Requests\Voucher;
 
 use Saloon\Contracts\Body\HasBody;
+use Saloon\Data\MultipartValue;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
-use Saloon\Traits\Body\HasJsonBody;
+use Saloon\Traits\Body\HasMultipartBody;
 
 /**
  * voucherUploadFile
@@ -20,16 +21,24 @@ use Saloon\Traits\Body\HasJsonBody;
  */
 class VoucherUploadFile extends Request implements HasBody
 {
-    use HasJsonBody;
+    use HasMultipartBody;
 
     protected Method $method = Method::POST;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected string $file,
+    ) {
     }
 
     public function resolveEndpoint(): string
     {
         return '/Voucher/Factory/uploadTempFile';
+    }
+
+    protected function defaultBody(): array
+    {
+        return [
+            new MultipartValue(name: 'file', value: $this->file),
+        ];
     }
 }

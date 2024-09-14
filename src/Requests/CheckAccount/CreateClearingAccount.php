@@ -18,12 +18,18 @@ class CreateClearingAccount extends Request implements HasBody
 
     protected Method $method = Method::POST;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected array $data
+    ) {
     }
 
     public function resolveEndpoint(): string
     {
         return '/CheckAccount/Factory/clearingAccount';
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

@@ -8,8 +8,8 @@ use Saloon\Http\Response;
 
 class Basics extends Resource
 {
-    public function bookkeepingSystemVersion(): Response
+    public function bookkeepingSystemVersion(): array
     {
-        return $this->connector->send(new BookkeepingSystemVersion());
+        return $this->connector->sevSend(new BookkeepingSystemVersion());
     }
 }

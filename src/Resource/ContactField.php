@@ -19,88 +19,63 @@ use Saloon\Http\Response;
 
 class ContactField extends Resource
 {
-    /**
-     * @param string $objectName Model name
-     * @param string $subObjectName Sub model name, required if you have "Email" at objectName
-     */
-    public function getPlaceholder(string $objectName, ?string $subObjectName): Response
+    public function getPlaceholder(string $objectName, ?string $subObjectName): array
     {
-        return $this->connector->send(new GetPlaceholder($objectName, $subObjectName));
+        return $this->connector->sevSend(new GetPlaceholder($objectName, $subObjectName));
     }
 
-    public function getContactFields(): Response
+    public function get(): array
     {
-        return $this->connector->send(new GetContactFields());
+        return $this->connector->sevSend(new GetContactFields());
     }
 
-    public function createContactField(): Response
+    public function create(int $contactId, array $data): array
     {
-        return $this->connector->send(new CreateContactField());
+        return $this->connector->sevSend(new CreateContactField($contactId, $data));
     }
 
-    /**
-     * @param float|int $contactCustomFieldId id of the contact field
-     */
-    public function getContactFieldsById(float|int $contactCustomFieldId): Response
+    public function getById(int $contactCustomFieldId): array
     {
-        return $this->connector->send(new GetContactFieldsById($contactCustomFieldId));
+        return $this->connector->sevSend(new GetContactFieldsById($contactCustomFieldId));
     }
 
-    /**
-     * @param float|int $contactCustomFieldId id of the contact field
-     */
-    public function updateContactfield(float|int $contactCustomFieldId): Response
+    public function update(int $contactCustomFieldId, array $data): array
     {
-        return $this->connector->send(new UpdateContactfield($contactCustomFieldId));
+        return $this->connector->sevSend(new UpdateContactfield($contactCustomFieldId, $data));
     }
 
-    /**
-     * @param int $contactCustomFieldId Id of contact field
-     */
-    public function deleteContactCustomFieldId(int $contactCustomFieldId): Response
+    public function delete(int $contactCustomFieldId): array
     {
-        return $this->connector->send(new DeleteContactCustomFieldId($contactCustomFieldId));
+        return $this->connector->sevSend(new DeleteContactCustomFieldId($contactCustomFieldId));
     }
 
-    public function getContactFieldSettings(): Response
+    public function getSettings(): array
     {
-        return $this->connector->send(new GetContactFieldSettings());
+        return $this->connector->sevSend(new GetContactFieldSettings());
     }
 
-    public function createContactFieldSetting(): Response
+    public function createSetting(array $data): array
     {
-        return $this->connector->send(new CreateContactFieldSetting());
+        return $this->connector->sevSend(new CreateContactFieldSetting($data));
     }
 
-    /**
-     * @param int $contactCustomFieldSettingId ID of contact field to return
-     */
-    public function getContactFieldSettingById(int $contactCustomFieldSettingId): Response
+    public function getSettingById(int $contactCustomFieldSettingId): array
     {
-        return $this->connector->send(new GetContactFieldSettingById($contactCustomFieldSettingId));
+        return $this->connector->sevSend(new GetContactFieldSettingById($contactCustomFieldSettingId));
     }
 
-    /**
-     * @param int $contactCustomFieldSettingId ID of contact field setting you want to update
-     */
-    public function updateContactFieldSetting(int $contactCustomFieldSettingId): Response
+    public function updateSetting(int $contactCustomFieldSettingId, array $data): array
     {
-        return $this->connector->send(new UpdateContactFieldSetting($contactCustomFieldSettingId));
+        return $this->connector->sevSend(new UpdateContactFieldSetting($contactCustomFieldSettingId, $data));
     }
 
-    /**
-     * @param int $contactCustomFieldSettingId Id of contact field to delete
-     */
-    public function deleteContactFieldSetting(int $contactCustomFieldSettingId): Response
+    public function deleteSetting(int $contactCustomFieldSettingId): array
     {
-        return $this->connector->send(new DeleteContactFieldSetting($contactCustomFieldSettingId));
+        return $this->connector->sevSend(new DeleteContactFieldSetting($contactCustomFieldSettingId));
     }
 
-    /**
-     * @param int $contactCustomFieldSettingId ID of contact field you want to get the reference count
-     */
-    public function getReferenceCount(int $contactCustomFieldSettingId): Response
+    public function getReferenceCount(int $contactCustomFieldSettingId): array
     {
-        return $this->connector->send(new GetReferenceCount($contactCustomFieldSettingId));
+        return $this->connector->sevSend(new GetReferenceCount($contactCustomFieldSettingId));
     }
 }

@@ -2,28 +2,30 @@
 
 namespace Lacodix\SevdeskSaloon\Requests\ContactField;
 
+use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Traits\Body\HasJsonBody;
 
-/**
- * updateContactFieldSetting
- *
- * Update an existing contact field  setting
- */
-class UpdateContactFieldSetting extends Request
+class UpdateContactFieldSetting extends Request implements HasBody
 {
+    use HasJsonBody;
+
     protected Method $method = Method::PUT;
 
-    /**
-     * @param int $contactCustomFieldSettingId ID of contact field setting you want to update
-     */
     public function __construct(
         protected int $contactCustomFieldSettingId,
+        protected array $data,
     ) {
     }
 
     public function resolveEndpoint(): string
     {
         return "/ContactCustomFieldSetting/{$this->contactCustomFieldSettingId}";
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

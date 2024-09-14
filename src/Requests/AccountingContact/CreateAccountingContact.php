@@ -18,12 +18,23 @@ class CreateAccountingContact extends Request implements HasBody
 
     protected Method $method = Method::POST;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected int $contactId,
+        protected array $data
+    ) {
+        $this->data['contact'] = [
+            'id' => $contactId,
+            'objectName' => 'Contact',
+        ];
     }
 
     public function resolveEndpoint(): string
     {
         return '/AccountingContact';
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

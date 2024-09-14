@@ -27,11 +27,17 @@ class SendCreditNoteViaEmail extends Request implements HasBody
      */
     public function __construct(
         protected int $creditNoteId,
+        protected array $data,
     ) {
     }
 
     public function resolveEndpoint(): string
     {
         return "/CreditNote/{$this->creditNoteId}/sendViaEmail";
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

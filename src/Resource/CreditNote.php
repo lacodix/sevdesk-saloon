@@ -22,128 +22,84 @@ use Saloon\Http\Response;
 
 class CreditNote extends Resource
 {
-    /**
-     * @param string $status Status of the CreditNote
-     * @param string $creditNoteNumber Retrieve all CreditNotes with this creditNote number
-     * @param int $startDate Retrieve all CreditNotes with a date equal or higher
-     * @param int $endDate Retrieve all CreditNotes with a date equal or lower
-     * @param int $contactid Retrieve all CreditNotes with this contact. Must be provided with contact[objectName]
-     * @param string $contactobjectName Only required if contact[id] was provided. 'Contact' should be used as value.
-     */
-    public function getCreditNotes(
-        ?string $status,
-        ?string $creditNoteNumber,
-        ?int $startDate,
-        ?int $endDate,
-        ?int $contactid,
-        ?string $contactobjectName,
-    ): Response {
-        return $this->connector->send(new GetCreditNotes($status, $creditNoteNumber, $startDate, $endDate, $contactid, $contactobjectName));
+    public function get(
+        ?string $status = null,
+        ?string $creditNoteNumber = null,
+        ?int $startDate = null,
+        ?int $endDate = null,
+        ?int $contactid = null,
+        ?string $contactobjectName = null,
+    ): array {
+        return $this->connector->sevSend(new GetCreditNotes($status, $creditNoteNumber, $startDate, $endDate, $contactid, $contactobjectName));
     }
 
-    public function createcreditNote(): Response
+    public function create(): array
     {
-        return $this->connector->send(new CreatecreditNote());
+        return $this->connector->sevSend(new CreatecreditNote());
     }
 
-    public function createCreditNoteFromInvoice(): Response
+    public function createFromInvoice(int $invoiceId): array
     {
-        return $this->connector->send(new CreateCreditNoteFromInvoice());
+        return $this->connector->sevSend(new CreateCreditNoteFromInvoice($invoiceId));
     }
 
-    public function createCreditNoteFromVoucher(): Response
+    public function createFromVoucher($voucherId): array
     {
-        return $this->connector->send(new CreateCreditNoteFromVoucher());
+        return $this->connector->sevSend(new CreateCreditNoteFromVoucher($voucherId));
     }
 
-    /**
-     * @param int $creditNoteId ID of creditNote to return
-     */
-    public function getcreditNoteById(int $creditNoteId): Response
+    public function getById(int $creditNoteId): array
     {
-        return $this->connector->send(new GetcreditNoteById($creditNoteId));
+        return $this->connector->sevSend(new GetcreditNoteById($creditNoteId));
     }
 
-    /**
-     * @param int $creditNoteId ID of creditNote to update
-     */
-    public function updatecreditNote(int $creditNoteId): Response
+    public function update(int $creditNoteId, array $data): array
     {
-        return $this->connector->send(new UpdatecreditNote($creditNoteId));
+        return $this->connector->sevSend(new UpdatecreditNote($creditNoteId, $data));
     }
 
-    /**
-     * @param int $creditNoteId Id of creditNote resource to delete
-     */
-    public function deletecreditNote(int $creditNoteId): Response
+    public function delete(int $creditNoteId): array
     {
-        return $this->connector->send(new DeletecreditNote($creditNoteId));
+        return $this->connector->sevSend(new DeletecreditNote($creditNoteId));
     }
 
-    /**
-     * @param int $creditNoteId ID of creditNote to return
-     * @param string $sendType the type you want to print.
-     */
-    public function sendCreditNoteByPrinting(int $creditNoteId, string $sendType): Response
+    public function sendByPrinting(int $creditNoteId, string $sendType): array
     {
-        return $this->connector->send(new SendCreditNoteByPrinting($creditNoteId, $sendType));
+        return $this->connector->sevSend(new SendCreditNoteByPrinting($creditNoteId, $sendType));
     }
 
-    /**
-     * @param int $creditNoteId ID of credit note to mark as sent
-     */
-    public function creditNoteSendBy(int $creditNoteId): Response
+    public function sendBy(int $creditNoteId, array $data): array
     {
-        return $this->connector->send(new CreditNoteSendBy($creditNoteId));
+        return $this->connector->sevSend(new CreditNoteSendBy($creditNoteId, $data));
     }
 
-    /**
-     * @param int $creditNoteId ID of the credit note to enshrine
-     */
-    public function creditNoteEnshrine(int $creditNoteId): Response
+    public function enshrine(int $creditNoteId): array
     {
-        return $this->connector->send(new CreditNoteEnshrine($creditNoteId));
+        return $this->connector->sevSend(new CreditNoteEnshrine($creditNoteId));
     }
 
-    /**
-     * @param int $creditNoteId ID of credit note from which you want the pdf
-     * @param bool $download If u want to download the pdf of the credit note.
-     * @param bool $preventSendBy Defines if u want to send the credit note.
-     */
-    public function creditNoteGetPdf(int $creditNoteId, ?bool $download, ?bool $preventSendBy): Response
+    public function getPdf(int $creditNoteId, ?bool $download = null, ?bool $preventSendBy = null): array
     {
-        return $this->connector->send(new CreditNoteGetPdf($creditNoteId, $download, $preventSendBy));
+        return $this->connector->send(new CreditNoteGetPdf($creditNoteId, $download, $preventSendBy))->json();
     }
 
-    /**
-     * @param int $creditNoteId ID of credit note to be sent via email
-     */
-    public function sendCreditNoteViaEmail(int $creditNoteId): Response
+    public function sendViaEmail(int $creditNoteId, array $data): array
     {
-        return $this->connector->send(new SendCreditNoteViaEmail($creditNoteId));
+        return $this->connector->sevSend(new SendCreditNoteViaEmail($creditNoteId, $data));
     }
 
-    /**
-     * @param int $creditNoteId ID of credit note to book
-     */
-    public function bookCreditNote(int $creditNoteId): Response
+    public function book(int $creditNoteId, array $data): array
     {
-        return $this->connector->send(new BookCreditNote($creditNoteId));
+        return $this->connector->sevSend(new BookCreditNote($creditNoteId, $data));
     }
 
-    /**
-     * @param int $creditNoteId ID of the credit note to reset
-     */
-    public function creditNoteResetToOpen(int $creditNoteId): Response
+    public function resetToOpen(int $creditNoteId): array
     {
-        return $this->connector->send(new CreditNoteResetToOpen($creditNoteId));
+        return $this->connector->sevSend(new CreditNoteResetToOpen($creditNoteId));
     }
 
-    /**
-     * @param int $creditNoteId ID of the credit note to reset
-     */
-    public function creditNoteResetToDraft(int $creditNoteId): Response
+    public function resetToDraft(int $creditNoteId): array
     {
-        return $this->connector->send(new CreditNoteResetToDraft($creditNoteId));
+        return $this->connector->sevSend(new CreditNoteResetToDraft($creditNoteId));
     }
 }

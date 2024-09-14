@@ -12,41 +12,28 @@ use Saloon\Http\Response;
 
 class AccountingContact extends Resource
 {
-    /**
-     * @param string $contactid ID of contact for which you want the accounting contact.
-     * @param string $contactobjectName Object name. Only needed if you also defined the ID of a contact.
-     */
-    public function getAccountingContact(?string $contactid, ?string $contactobjectName): Response
+    public function get(?string $contactId = null, ?string $contactobjectName = null): array
     {
-        return $this->connector->send(new GetAccountingContact($contactid, $contactobjectName));
+        return $this->connector->sevSend(new GetAccountingContact($contactId, $contactobjectName));
     }
 
-    public function createAccountingContact(): Response
+    public function create(int $contactId, array $data): array
     {
-        return $this->connector->send(new CreateAccountingContact());
+        return $this->connector->sevSend(new CreateAccountingContact($contactId, $data));
     }
 
-    /**
-     * @param int $accountingContactId ID of accounting contact to return
-     */
-    public function getAccountingContactById(int $accountingContactId): Response
+    public function getById(int $accountingContactId): array
     {
-        return $this->connector->send(new GetAccountingContactById($accountingContactId));
+        return $this->connector->sevSend(new GetAccountingContactById($accountingContactId));
     }
 
-    /**
-     * @param int $accountingContactId ID of accounting contact to update
-     */
-    public function updateAccountingContact(int $accountingContactId): Response
+    public function update(int $accountingContactId, array $data): array
     {
-        return $this->connector->send(new UpdateAccountingContact($accountingContactId));
+        return $this->connector->sevSend(new UpdateAccountingContact($accountingContactId, $data));
     }
 
-    /**
-     * @param int $accountingContactId Id of accounting contact resource to delete
-     */
-    public function deleteAccountingContact(int $accountingContactId): Response
+    public function delete(int $accountingContactId): Response
     {
-        return $this->connector->send(new DeleteAccountingContact($accountingContactId));
+        return $this->connector->sevSend(new DeleteAccountingContact($accountingContactId));
     }
 }

@@ -3,6 +3,7 @@
 namespace Lacodix\SevdeskSaloon\Resource;
 
 use Lacodix\SevdeskSaloon\Requests\Voucher\BookVoucher;
+use Lacodix\SevdeskSaloon\Requests\Voucher\CreateVoucher;
 use Lacodix\SevdeskSaloon\Requests\Voucher\ForAccountNumber;
 use Lacodix\SevdeskSaloon\Requests\Voucher\ForAllAccounts;
 use Lacodix\SevdeskSaloon\Requests\Voucher\ForExpense;
@@ -12,7 +13,6 @@ use Lacodix\SevdeskSaloon\Requests\Voucher\GetVoucherById;
 use Lacodix\SevdeskSaloon\Requests\Voucher\GetVouchers;
 use Lacodix\SevdeskSaloon\Requests\Voucher\UpdateVoucher;
 use Lacodix\SevdeskSaloon\Requests\Voucher\VoucherEnshrine;
-use Lacodix\SevdeskSaloon\Requests\Voucher\VoucherFactorySaveVoucher;
 use Lacodix\SevdeskSaloon\Requests\Voucher\VoucherResetToDraft;
 use Lacodix\SevdeskSaloon\Requests\Voucher\VoucherResetToOpen;
 use Lacodix\SevdeskSaloon\Requests\Voucher\VoucherUploadFile;
@@ -21,14 +21,14 @@ use Saloon\Http\Response;
 
 class Voucher extends Resource
 {
-    public function voucherFactorySaveVoucher(): Response
+    public function create(array $data): array
     {
-        return $this->connector->send(new VoucherFactorySaveVoucher());
+        return $this->connector->sevSend(new CreateVoucher());
     }
 
-    public function voucherUploadFile(): Response
+    public function uploadFile(string $file): array
     {
-        return $this->connector->send(new VoucherUploadFile());
+        return $this->connector->sevSend(new VoucherUploadFile($file));
     }
 
     /**
@@ -40,94 +40,94 @@ class Voucher extends Resource
      * @param int $contactid Retrieve all vouchers with this contact. Must be provided with contact[objectName]
      * @param string $contactobjectName Only required if contact[id] was provided. 'Contact' should be used as value.
      */
-    public function getVouchers(
-        float|int|null $status,
-        ?string $creditDebit,
-        ?string $descriptionLike,
-        ?int $startDate,
-        ?int $endDate,
-        ?int $contactid,
-        ?string $contactobjectName,
-    ): Response {
-        return $this->connector->send(new GetVouchers($status, $creditDebit, $descriptionLike, $startDate, $endDate, $contactid, $contactobjectName));
+    public function get(
+        ?int $status = null,
+        ?string $creditDebit = null,
+        ?string $descriptionLike = null,
+        ?int $startDate = null,
+        ?int $endDate = null,
+        ?int $contactid = null,
+        ?string $contactobjectName = null,
+    ): array {
+        return $this->connector->sevSend(new GetVouchers($status, $creditDebit, $descriptionLike, $startDate, $endDate, $contactid, $contactobjectName));
     }
 
     /**
      * @param int $voucherId ID of voucher to return
      */
-    public function getVoucherById(int $voucherId): Response
+    public function getById(int $voucherId): array
     {
-        return $this->connector->send(new GetVoucherById($voucherId));
+        return $this->connector->sevSend(new GetVoucherById($voucherId));
     }
 
     /**
      * @param int $voucherId ID of voucher to update
      */
-    public function updateVoucher(int $voucherId): Response
+    public function update(int $voucherId, array $data): array
     {
-        return $this->connector->send(new UpdateVoucher($voucherId));
+        return $this->connector->sevSend(new UpdateVoucher($voucherId, $data));
     }
 
     /**
      * @param int $voucherId ID of the voucher to enshrine
      */
-    public function voucherEnshrine(int $voucherId): Response
+    public function enshrine(int $voucherId): array
     {
-        return $this->connector->send(new VoucherEnshrine($voucherId));
+        return $this->connector->sevSend(new VoucherEnshrine($voucherId));
     }
 
     /**
      * @param int $voucherId ID of voucher to book
      */
-    public function bookVoucher(int $voucherId): Response
+    public function book(int $voucherId, array $data): array
     {
-        return $this->connector->send(new BookVoucher($voucherId));
+        return $this->connector->sevSend(new BookVoucher($voucherId, $data));
     }
 
     /**
      * @param int $voucherId ID of the voucher to reset
      */
-    public function voucherResetToOpen(int $voucherId): Response
+    public function resetToOpen(int $voucherId): array
     {
-        return $this->connector->send(new VoucherResetToOpen($voucherId));
+        return $this->connector->sevSend(new VoucherResetToOpen($voucherId));
     }
 
     /**
      * @param int $voucherId ID of the voucher to reset
      */
-    public function voucherResetToDraft(int $voucherId): Response
+    public function resetToDraft(int $voucherId): array
     {
-        return $this->connector->send(new VoucherResetToDraft($voucherId));
+        return $this->connector->sevSend(new VoucherResetToDraft($voucherId));
     }
 
-    public function forAllAccounts(): Response
+    public function getGuidanceForAllAccounts(): array
     {
-        return $this->connector->send(new ForAllAccounts());
+        return $this->connector->sevSend(new ForAllAccounts());
     }
 
     /**
      * @param int $accountNumber The datev account number you want to get additional information of
      */
-    public function forAccountNumber(int $accountNumber): Response
+    public function getGuidanceForAccountNumber(int $accountNumber): array
     {
-        return $this->connector->send(new ForAccountNumber($accountNumber));
+        return $this->connector->sevSend(new ForAccountNumber($accountNumber));
     }
 
     /**
      * @param string $taxRule The code of the tax rule you want to get guidance for.
      */
-    public function forTaxRule(string $taxRule): Response
+    public function getGuidanceForTaxRule(string $taxRule): array
     {
-        return $this->connector->send(new ForTaxRule($taxRule));
+        return $this->connector->sevSend(new ForTaxRule($taxRule));
     }
 
-    public function forRevenue(): Response
+    public function getGuidanceForRevenueAccounts(): array
     {
-        return $this->connector->send(new ForRevenue());
+        return $this->connector->sevSend(new ForRevenue());
     }
 
-    public function forExpense(): Response
+    public function getGuidanceForExpenseAccounts(): array
     {
-        return $this->connector->send(new ForExpense());
+        return $this->connector->sevSend(new ForExpense());
     }
 }

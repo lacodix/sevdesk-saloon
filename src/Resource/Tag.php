@@ -13,46 +13,33 @@ use Saloon\Http\Response;
 
 class Tag extends Resource
 {
-    /**
-     * @param float|int $id ID of the Tag
-     * @param string $name Name of the Tag
-     */
-    public function getTags(float|int|null $id, ?string $name): Response
+    public function get(?int $id = null, ?string $name = null): array
     {
-        return $this->connector->send(new GetTags($id, $name));
+        return $this->connector->sevSend(new GetTags($id, $name));
     }
 
-    /**
-     * @param int $tagId ID of tag to return
-     */
-    public function getTagById(int $tagId): Response
+    public function create(array $data): array
     {
-        return $this->connector->send(new GetTagById($tagId));
+        return $this->connector->sevSend(new CreateTag($data));
     }
 
-    /**
-     * @param int $tagId ID of tag you want to update
-     */
-    public function updateTag(int $tagId): Response
+    public function getById(int $tagId): array
     {
-        return $this->connector->send(new UpdateTag($tagId));
+        return $this->connector->sevSend(new GetTagById($tagId));
     }
 
-    /**
-     * @param int $tagId Id of tag to delete
-     */
-    public function deleteTag(int $tagId): Response
+    public function update(int $tagId, array $data): array
     {
-        return $this->connector->send(new DeleteTag($tagId));
+        return $this->connector->sevSend(new UpdateTag($tagId, $data));
     }
 
-    public function createTag(): Response
+    public function delete(int $tagId): array
     {
-        return $this->connector->send(new CreateTag());
+        return $this->connector->sevSend(new DeleteTag($tagId));
     }
 
-    public function getTagRelations(): Response
+    public function getRelations(): array
     {
-        return $this->connector->send(new GetTagRelations());
+        return $this->connector->sevSend(new GetTagRelations());
     }
 }

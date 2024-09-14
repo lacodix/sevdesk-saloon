@@ -2,6 +2,7 @@
 
 namespace Lacodix\SevdeskSaloon\Resource;
 
+use Lacodix\SevdeskSaloon\Enums\ContactType;
 use Lacodix\SevdeskSaloon\Requests\Contact\ContactCustomerNumberAvailabilityCheck;
 use Lacodix\SevdeskSaloon\Requests\Contact\CreateContact;
 use Lacodix\SevdeskSaloon\Requests\Contact\DeleteContact;
@@ -16,78 +17,72 @@ use Saloon\Http\Response;
 
 class Contact extends Resource
 {
-    public function getNextCustomerNumber(): Response
+    public function getNextCustomerNumber(): array
     {
-        return $this->connector->send(new GetNextCustomerNumber());
+        return $this->connector->sevSend(new GetNextCustomerNumber());
     }
 
-    /**
-     * @param string $value The value to be checked.
-     * @param string $customFieldSettingid ID of ContactCustomFieldSetting for which the value has to be checked.
-     * @param string $customFieldSettingobjectName Object name. Only needed if you also defined the ID of a ContactCustomFieldSetting.
-     * @param string $customFieldName The ContactCustomFieldSetting name, if no ContactCustomFieldSetting is provided.
-     */
     public function findContactsByCustomFieldValue(
         string $value,
-        ?string $customFieldSettingid,
-        ?string $customFieldSettingobjectName,
-        string $customFieldName,
-    ): Response {
-        return $this->connector->send(new FindContactsByCustomFieldValue($value, $customFieldSettingid, $customFieldSettingobjectName, $customFieldName));
+        ?string $customFieldName = null,
+        ?string $customFieldSettingid = null,
+        ?string $customFieldSettingobjectName = null,
+    ): array {
+        return $this->connector->sevSend(new FindContactsByCustomFieldValue($customFieldName, $value, $customFieldSettingid, $customFieldSettingobjectName));
     }
 
-    /**
-     * @param string $customerNumber The customer number to be checked.
-     */
-    public function contactCustomerNumberAvailabilityCheck(?string $customerNumber): Response
+    public function customerNumberAvailabilityCheck(?string $customerNumber): array
     {
-        return $this->connector->send(new ContactCustomerNumberAvailabilityCheck($customerNumber));
+        return $this->connector->sevSend(new ContactCustomerNumberAvailabilityCheck($customerNumber));
     }
 
-    /**
-     * @param string $depth Defines if both organizations <b>and</b> persons should be returned.<br>
-     *      '0' -> only organizations, '1' -> organizations and persons
-     * @param string $customerNumber Retrieve all contacts with this customer number
-     */
-    public function getContacts(?string $depth, ?string $customerNumber): Response
+    public function get(?string $depth = null, ?string $customerNumber = null): array
     {
-        return $this->connector->send(new GetContacts($depth, $customerNumber));
+        return $this->connector->sevSend(new GetContacts($depth, $customerNumber));
     }
 
-    public function createContact(): Response
+    public function create(ContactType $type, array $data): array
     {
-        return $this->connector->send(new CreateContact());
+        return $this->connector->sevSend(new CreateContact($type, $data));
     }
 
-    /**
-     * @param int $contactId ID of contact to return
-     */
-    public function getContactById(int $contactId): Response
+    public function createCustomer(array $data): array
     {
-        return $this->connector->send(new GetContactById($contactId));
+        return $this->create(ContactType::CUSTOMER, $data);
     }
 
-    /**
-     * @param int $contactId ID of contact to update
-     */
-    public function updateContact(int $contactId): Response
+    public function createSupplier(array $data): array
     {
-        return $this->connector->send(new UpdateContact($contactId));
+        return $this->create(ContactType::SUPPLIER, $data);
     }
 
-    /**
-     * @param int $contactId Id of contact resource to delete
-     */
-    public function deleteContact(int $contactId): Response
+    public function createPartner(array $data): array
     {
-        return $this->connector->send(new DeleteContact($contactId));
+        return $this->create(ContactType::PARTNER, $data);
     }
 
-    /**
-     * @param int $contactId ID of contact to return
-     */
-    public function getContactTabsItemCountById(int $contactId): Response
+    public function createProspectCustomer(array $data): array
     {
-        return $this->connector->send(new GetContactTabsItemCountById($contactId));
+        return $this->create(ContactType::PROSPECT_CUSTOMER, $data);
+    }
+
+    public function getById(int $contactId): array
+    {
+        return $this->connector->sevSend(new GetContactById($contactId));
+    }
+
+    public function update(int $contactId, array $data): array
+    {
+        return $this->connector->sevSend(new UpdateContact($contactId, $data));
+    }
+
+    public function delete(int $contactId): array
+    {
+        return $this->connector->sevSend(new DeleteContact($contactId));
+    }
+
+    public function getItemCountById(int $contactId): array
+    {
+        return $this->connector->send(new GetContactTabsItemCountById($contactId))->json();
     }
 }

@@ -15,13 +15,13 @@ class InvoicePos extends Resource
      * @param float|int $partid Retrieve all invoices positions with this part. Must be provided with part[objectName]
      * @param string $partobjectName Only required if part[id] was provided. 'Part' should be used as value.
      */
-    public function getInvoicePos(
-        float|int|null $id,
-        float|int|null $invoiceid,
-        ?string $invoiceobjectName,
-        float|int|null $partid,
-        ?string $partobjectName,
-    ): Response {
-        return $this->connector->send(new GetInvoicePos($id, $invoiceid, $invoiceobjectName, $partid, $partobjectName));
+    public function get(
+        ?int $id = null,
+        ?int $invoiceid = null,
+        ?string $invoiceobjectName = null,
+        ?int $partid = null,
+        ?string $partobjectName = null,
+    ): array {
+        return $this->connector->sevSend(new GetInvoicePos($id, $invoiceid, $invoiceobjectName, $partid, $partobjectName));
     }
 }

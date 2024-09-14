@@ -22,10 +22,10 @@ class GetInvoicePos extends Request
      * @param string|null $partobjectName Only required if part[id] was provided. 'Part' should be used as value.
      */
     public function __construct(
-        protected float|int|null $id = null,
-        protected float|int|null $invoiceid = null,
+        protected ?int $id = null,
+        protected ?int $invoiceid = null,
         protected ?string $invoiceobjectName = null,
-        protected float|int|null $partid = null,
+        protected ?int $partid = null,
         protected ?string $partobjectName = null,
     ) {
     }

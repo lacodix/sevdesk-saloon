@@ -2,30 +2,30 @@
 
 namespace Lacodix\SevdeskSaloon\Requests\AccountingContact;
 
+use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Traits\Body\HasJsonBody;
 
-/**
- * updateAccountingContact
- *
- * Attention, updating an existing AccountingContact can lead to **booking errors**, especially in the
- * **DATEV export**.
- * Compatibility of sevdesk with DATEV is no longer guaranteed.
- */
-class UpdateAccountingContact extends Request
+class UpdateAccountingContact extends Request implements HasBody
 {
+    use HasJsonBody;
+    
     protected Method $method = Method::PUT;
 
-    /**
-     * @param int $accountingContactId ID of accounting contact to update
-     */
     public function __construct(
         protected int $accountingContactId,
+        protected array $data,
     ) {
     }
 
     public function resolveEndpoint(): string
     {
         return "/AccountingContact/{$this->accountingContactId}";
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

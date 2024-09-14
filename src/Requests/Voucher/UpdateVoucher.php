@@ -2,8 +2,10 @@
 
 namespace Lacodix\SevdeskSaloon\Requests\Voucher;
 
+use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Traits\Body\HasJsonBody;
 
 /**
  * updateVoucher
@@ -12,8 +14,10 @@ use Saloon\Http\Request;
  * Complex changes like adding a position should use /Voucher/Factory/saveVoucher.<br> You can not
  * change the status using this endpoint.
  */
-class UpdateVoucher extends Request
+class UpdateVoucher extends Request implements HasBody
 {
+    use HasJsonBody;
+
     protected Method $method = Method::PUT;
 
     /**
@@ -21,11 +25,17 @@ class UpdateVoucher extends Request
      */
     public function __construct(
         protected int $voucherId,
+        protected array $data,
     ) {
     }
 
     public function resolveEndpoint(): string
     {
         return "/Voucher/{$this->voucherId}";
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

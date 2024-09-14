@@ -15,56 +15,46 @@ use Saloon\Http\Response;
 
 class CheckAccount extends Resource
 {
-    public function getCheckAccounts(): Response
+    public function get(): array
     {
-        return $this->connector->send(new GetCheckAccounts());
-    }
-
-    public function createCheckAccount(): Response
-    {
-        return $this->connector->send(new CreateCheckAccount());
-    }
-
-    public function createFileImportAccount(): Response
-    {
-        return $this->connector->send(new CreateFileImportAccount());
-    }
-
-    public function createClearingAccount(): Response
-    {
-        return $this->connector->send(new CreateClearingAccount());
+        return $this->connector->sevSend(new GetCheckAccounts());
     }
 
     /**
-     * @param int $checkAccountId ID of check account
+     * @deprecated
      */
-    public function getCheckAccountById(int $checkAccountId): Response
+    public function create(array $data): array
     {
-        return $this->connector->send(new GetCheckAccountById($checkAccountId));
+        return $this->connector->sevSend(new CreateCheckAccount($data));
     }
 
-    /**
-     * @param int $checkAccountId ID of check account to update
-     */
-    public function updateCheckAccount(int $checkAccountId): Response
+    public function createFileImportAccount(array $data): array
     {
-        return $this->connector->send(new UpdateCheckAccount($checkAccountId));
+        return $this->connector->sevSend(new CreateFileImportAccount($data));
     }
 
-    /**
-     * @param int $checkAccountId Id of check account to delete
-     */
-    public function deleteCheckAccount(int $checkAccountId): Response
+    public function createClearingAccount(array $data): array
     {
-        return $this->connector->send(new DeleteCheckAccount($checkAccountId));
+        return $this->connector->sevSend(new CreateClearingAccount($data));
     }
 
-    /**
-     * @param int $checkAccountId ID of check account
-     * @param string $date Only consider transactions up to this date at 23:59:59
-     */
-    public function getBalanceAtDate(int $checkAccountId, string $date): Response
+    public function getById(int $checkAccountId): array
     {
-        return $this->connector->send(new GetBalanceAtDate($checkAccountId, $date));
+        return $this->connector->sevSend(new GetCheckAccountById($checkAccountId));
+    }
+
+    public function update(int $checkAccountId, array $data): array
+    {
+        return $this->connector->sevSend(new UpdateCheckAccount($checkAccountId, $data));
+    }
+
+    public function delete(int $checkAccountId): array
+    {
+        return $this->connector->sevSend(new DeleteCheckAccount($checkAccountId));
+    }
+
+    public function getBalanceAtDate(int $checkAccountId, string $date): array
+    {
+        return $this->connector->sevSend(new GetBalanceAtDate($checkAccountId, $date));
     }
 }

@@ -2,8 +2,10 @@
 
 namespace Lacodix\SevdeskSaloon\Requests\Invoice;
 
+use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
+use Saloon\Traits\Body\HasJsonBody;
 
 /**
  * bookInvoice
@@ -12,8 +14,10 @@ use Saloon\Http\Request;
  * process.<br> There are several ways on correctly booking an invoice, all by using the same
  * endpoint.<br> for more information look <a href='#tag/Invoice/How-to-book-an-invoice'>here</a>.
  */
-class BookInvoice extends Request
+class BookInvoice extends Request implements HasBody
 {
+    use HasJsonBody;
+
     protected Method $method = Method::PUT;
 
     /**
@@ -21,11 +25,17 @@ class BookInvoice extends Request
      */
     public function __construct(
         protected int $invoiceId,
+        protected array $data,
     ) {
     }
 
     public function resolveEndpoint(): string
     {
         return "/Invoice/{$this->invoiceId}/bookAmount";
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

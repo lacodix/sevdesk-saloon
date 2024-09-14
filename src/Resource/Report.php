@@ -11,23 +11,23 @@ use Saloon\Http\Response;
 
 class Report extends Resource
 {
-    public function reportInvoice(?bool $download, string $view, array $sevQuery): Response
+    public function invoice(string $view, array $sevQuery, ?bool $download = null): array
     {
-        return $this->connector->send(new ReportInvoice($download, $view, $sevQuery));
+        return $this->connector->sevSend(new ReportInvoice($download, $view, $sevQuery));
     }
 
-    public function reportOrder(?bool $download, string $view, array $sevQuery): Response
+    public function order(string $view, array $sevQuery, ?bool $download = null): array
     {
-        return $this->connector->send(new ReportOrder($download, $view, $sevQuery));
+        return $this->connector->sevSend(new ReportOrder($download, $view, $sevQuery));
     }
 
-    public function reportContact(?bool $download, array $sevQuery): Response
+    public function contact(array $sevQuery, ?bool $download = null): array
     {
-        return $this->connector->send(new ReportContact($download, $sevQuery));
+        return $this->connector->sevSend(new ReportContact($download, $sevQuery));
     }
 
-    public function reportVoucher(?bool $download, array $sevQuery): Response
+    public function voucher(array $sevQuery, ?bool $download = null): array
     {
-        return $this->connector->send(new ReportVoucher($download, $sevQuery));
+        return $this->connector->sevSend(new ReportVoucher($download, $sevQuery));
     }
 }

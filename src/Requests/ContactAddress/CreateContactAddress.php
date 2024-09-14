@@ -2,6 +2,7 @@
 
 namespace Lacodix\SevdeskSaloon\Requests\ContactAddress;
 
+use Lacodix\SevdeskSaloon\Enums\Countries;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
@@ -18,12 +19,27 @@ class CreateContactAddress extends Request implements HasBody
 
     protected Method $method = Method::POST;
 
-    public function __construct()
-    {
+    public function __construct(
+        protected int $contactId,
+        protected array $data
+    ) {
+        $this->data['contact'] = [
+            'id' => $contactId,
+            'objectName' => 'Contact',
+        ];
+        $this->data['country'] ??= [
+            'id' => Countries::GERMANY->value,
+            'objectName' => 'StaticCountry',
+        ];
     }
 
     public function resolveEndpoint(): string
     {
         return '/ContactAddress';
+    }
+
+    public function defaultBody(): array
+    {
+        return $this->data;
     }
 }

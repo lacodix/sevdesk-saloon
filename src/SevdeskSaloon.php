@@ -25,11 +25,21 @@ use Lacodix\SevdeskSaloon\Resource\Voucher;
 use Lacodix\SevdeskSaloon\Resource\VoucherPos;
 use Saloon\Http\Auth\QueryAuthenticator;
 use Saloon\Http\Connector;
+use Saloon\Http\Faking\MockClient;
+use Saloon\Http\Request;
+use Saloon\Http\Response;
 
 class SevdeskSaloon extends Connector
 {
     public function __construct(public readonly string $token)
     {
+    }
+
+    public function sevSend(Request $request, MockClient $mockClient = null, callable $handleRetry = null): array
+    {
+        $response = parent::send($request, $mockClient, $handleRetry);
+
+        return $response->json()['objects'];
     }
 
     public function resolveBaseUrl(): string
