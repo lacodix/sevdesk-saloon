@@ -4,11 +4,9 @@ namespace Lacodix\SevdeskSaloon\Requests\CreditNote;
 
 use Lacodix\SevdeskSaloon\Enums\Countries;
 use Lacodix\SevdeskSaloon\Enums\CreditNoteStatus;
-use Lacodix\SevdeskSaloon\SevdeskSaloon;
 use Lacodix\SevdeskSaloon\Traits\HasPositions;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
-use Saloon\Http\PendingRequest;
 use Saloon\Http\Request;
 use Saloon\Traits\Body\HasJsonBody;
 
@@ -62,56 +60,56 @@ class CreateCreditNote extends Request implements HasBody
     public function defaultBody(): array
     {
         return [
-            'creditNote'         => [
-                'objectName'           => 'CreditNote',
-                'mapAll'               => 'true',
-                'creditNoteNumber'     => $this->data['creditNoteNumber'] ?? null,
-                'contact'              => [
-                    'id'         => $this->contactId,
-                    'objectName' => 'Contact'
+            'creditNote' => [
+                'objectName' => 'CreditNote',
+                'mapAll' => 'true',
+                'creditNoteNumber' => $this->data['creditNoteNumber'] ?? null,
+                'contact' => [
+                    'id' => $this->contactId,
+                    'objectName' => 'Contact',
                 ],
-                'creditNoteDate'       => $this->data['creditNoteDate'] ?? date('Y-m-d H:i:s'),
-                'status'               => $this->data['status'] ?? CreditNoteStatus::DRAFT->value,
-                'header'               => $this->data['header'] ?? null,
-                'headText'             => $this->data['headText'] ?? null,
-                'footText'             => $this->data['footText'] ?? null,
-                'addressCountry'       => [
-                    'id'         => $this->data['country'] ?? Countries::GERMANY->value,
-                    'objectName' => 'StaticCountry'
+                'creditNoteDate' => $this->data['creditNoteDate'] ?? date('Y-m-d H:i:s'),
+                'status' => $this->data['status'] ?? CreditNoteStatus::DRAFT->value,
+                'header' => $this->data['header'] ?? null,
+                'headText' => $this->data['headText'] ?? null,
+                'footText' => $this->data['footText'] ?? null,
+                'addressCountry' => [
+                    'id' => $this->data['country'] ?? Countries::GERMANY->value,
+                    'objectName' => 'StaticCountry',
                 ],
-                'deliveryDate'         => $this->data['deliveryDate'] ?? date('Y-m-d H:i:s'),
-                'deliveryTerms'        => $this->data['deliveryTerns'] ?? null,
-                'paymentTerms'         => $this->data['paymentTerns'] ?? null,
-                'version'              => $this->data['version'] ?? null,
-                'smallSettlement'      => $this->data['smallSettlement'] ?? null,
-                'contactPerson'        => [
-                    'id'         => $this->sevdeskConfig['sevUserId'],
-                    'objectName' => 'SevUser'
+                'deliveryDate' => $this->data['deliveryDate'] ?? date('Y-m-d H:i:s'),
+                'deliveryTerms' => $this->data['deliveryTerns'] ?? null,
+                'paymentTerms' => $this->data['paymentTerns'] ?? null,
+                'version' => $this->data['version'] ?? null,
+                'smallSettlement' => $this->data['smallSettlement'] ?? null,
+                'contactPerson' => [
+                    'id' => $this->sevdeskConfig['sevUserId'],
+                    'objectName' => 'SevUser',
                 ],
-                'taxRate'              => $this->data['taxRate'] ?? $this->sevdeskConfig['taxRate'],
+                'taxRate' => $this->data['taxRate'] ?? $this->sevdeskConfig['taxRate'],
                 // ==== only in version 1.0 ====
-                'taxType'              => $this->data['taxType'] ?? $this->sevdeskConfig['taxType'],
-                'taxSet'               => empty($this->data['taxSetId']) ? null : [
-                    'id'         => $this->data['taxSetId'],
-                    'objectName' => 'TaxSet'
+                'taxType' => $this->data['taxType'] ?? $this->sevdeskConfig['taxType'],
+                'taxSet' => empty($this->data['taxSetId']) ? null : [
+                    'id' => $this->data['taxSetId'],
+                    'objectName' => 'TaxSet',
                 ],
                 // ==== only in version 2.0 ====
-                'taxRule'              => [
-                    'id'         => $this->sevdeskConfig['taxRule'],
+                'taxRule' => [
+                    'id' => $this->sevdeskConfig['taxRule'],
                     'objectName' => 'TaxRule',
                 ],
                 // =============================
-                'taxText'              => $this->data['taxText'] ?? $this->sevdeskConfig['taxText'],
-                'sendDate'             => $this->data['sendDate'] ?? date('Y-m-d H:i:s'),
-                'address'              => $this->data['address'] ?? null,
-                'bookingCategory'      => $this->data['bookingCategory'] ?? null,
-                'currency'             => $this->data['currency'] ?? $this->sevdeskConfig['currency'],
+                'taxText' => $this->data['taxText'] ?? $this->sevdeskConfig['taxText'],
+                'sendDate' => $this->data['sendDate'] ?? date('Y-m-d H:i:s'),
+                'address' => $this->data['address'] ?? null,
+                'bookingCategory' => $this->data['bookingCategory'] ?? null,
+                'currency' => $this->data['currency'] ?? $this->sevdeskConfig['currency'],
                 'customerInternalNote' => $this->data['customerInternalNote'] ?? null,
-                'showNet'              => $this->data['showNet'] ?? null,
-                'sendType'             => $this->data['sendType'] ?? null,
+                'showNet' => $this->data['showNet'] ?? null,
+                'sendType' => $this->data['sendType'] ?? null,
             ],
             'takeDefaultAddress' => 'true',
-            'creditNotePosSave'  => self::getPositions($this->items, $this->sevdeskConfig, 'creditNote'),
+            'creditNotePosSave' => self::getPositions($this->items, $this->sevdeskConfig, 'creditNote'),
         ];
     }
 

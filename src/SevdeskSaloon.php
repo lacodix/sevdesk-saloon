@@ -75,7 +75,7 @@ class SevdeskSaloon extends Connector
         }
     }
 
-    public function send(Request $request, MockClient $mockClient = null, callable $handleRetry = null): Response
+    public function send(Request $request, ?MockClient $mockClient = null, ?callable $handleRetry = null): Response
     {
         if (method_exists($request, 'setConfig')) {
             $request->setConfig($this->sevdeskConfig);

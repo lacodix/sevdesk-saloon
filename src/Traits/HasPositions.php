@@ -2,11 +2,9 @@
 
 namespace Lacodix\SevdeskSaloon\Traits;
 
-use Exception;
-
 trait HasPositions
 {
-    static private function getPositions(
+    private static function getPositions(
         array $items,
         array $config,
         string $objectName
@@ -20,25 +18,25 @@ trait HasPositions
 
             $positions[] = [
                 'objectName' => ucfirst($objectName) . 'Pos',
-                'mapAll'     => 'true',
+                'mapAll' => 'true',
                 'part' => empty($item['partId']) ? null : [
-                    'id'         => $item['partId'],
-                    'objectName' => 'Part'
+                    'id' => $item['partId'],
+                    'objectName' => 'Part',
                 ],
-                'quantity'   => $item['quantity'] ?? 1,
-                'price'      => $item['price'],
-                'priceTax'   => $item['priceTax'] ?? null,
+                'quantity' => $item['quantity'] ?? 1,
+                'price' => $item['price'],
+                'priceTax' => $item['priceTax'] ?? null,
                 'priceGross' => $item['priceGross'] ?? null,
-                'name'       => $item['name'],
-                'unity'      => [
-                    'id'         => $item['unityId'] ?? 1,
+                'name' => $item['name'],
+                'unity' => [
+                    'id' => $item['unityId'] ?? 1,
                     'objectName' => 'Unity',
                 ],
-                'text'       => $item['text'] ?? '',
-                'discount'   => $item['discount'] ?? null,
-                'optional'   => $item['optional'] ?? null,
-                'taxRate'    => $item['taxRate'] ?? $config['taxRate'],
-                ... array_key_exists('positionNumber', $item) ? ['positionNumber' => $item['positionNumber']] : [],
+                'text' => $item['text'] ?? '',
+                'discount' => $item['discount'] ?? null,
+                'optional' => $item['optional'] ?? null,
+                'taxRate' => $item['taxRate'] ?? $config['taxRate'],
+                ...array_key_exists('positionNumber', $item) ? ['positionNumber' => $item['positionNumber']] : [],
             ];
         }
 

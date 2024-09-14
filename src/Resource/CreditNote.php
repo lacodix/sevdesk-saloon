@@ -4,7 +4,7 @@ namespace Lacodix\SevdeskSaloon\Resource;
 
 use Lacodix\SevdeskSaloon\Enums\SevSequenceObjectType;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\BookCreditNote;
-use Lacodix\SevdeskSaloon\Requests\CreditNote\CreatecreditNote;
+use Lacodix\SevdeskSaloon\Requests\CreditNote\CreateCreditNote;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\CreateCreditNoteFromInvoice;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\CreateCreditNoteFromVoucher;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\CreditNoteEnshrine;
@@ -41,7 +41,7 @@ class CreditNote extends Resource
 
     public function create(int $contactId, array $items, array $data): array
     {
-        return $this->connector->sevSend(new CreatecreditNote($contactId, $items, $data));
+        return $this->connector->sevSend(new CreateCreditNote($contactId, $items, $data));
     }
 
     public function createFromInvoice(int $invoiceId): array
