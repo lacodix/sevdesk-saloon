@@ -39,9 +39,9 @@ class CreditNote extends Resource
         return $this->connector->sevSend(new GetCreditNotes($status, $creditNoteNumber, $startDate, $endDate, $contactid, $contactobjectName));
     }
 
-    public function create(): array
+    public function create(int $contactId, array $items, array $data): array
     {
-        return $this->connector->sevSend(new CreatecreditNote());
+        return $this->connector->sevSend(new CreatecreditNote($contactId, $items, $data));
     }
 
     public function createFromInvoice(int $invoiceId): array

@@ -48,9 +48,9 @@ class Invoice extends Resource
         return $this->connector->sevSend(new GetInvoices($status, $invoiceNumber, $startDate, $endDate, $contactid, $contactobjectName));
     }
 
-    public function create(int $contactId, array $data): array
+    public function create(int $contactId, array $items, array $data): array
     {
-        return $this->connector->sevSend(new CreateInvoice($contactId, $data));
+        return $this->connector->sevSend(new CreateInvoice($contactId, $items, $data));
     }
 
     public function getById(int $invoiceId): array

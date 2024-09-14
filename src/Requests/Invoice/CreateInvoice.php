@@ -2,8 +2,13 @@
 
 namespace Lacodix\SevdeskSaloon\Requests\Invoice;
 
+use Lacodix\SevdeskSaloon\Enums\Countries;
+use Lacodix\SevdeskSaloon\Enums\InvoiceStatus;
+use Lacodix\SevdeskSaloon\SevdeskSaloon;
+use Lacodix\SevdeskSaloon\Traits\HasPositions;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
+use Saloon\Http\PendingRequest;
 use Saloon\Http\Request;
 use Saloon\Traits\Body\HasJsonBody;
 
@@ -52,17 +57,16 @@ use Saloon\Traits\Body\HasJsonBody;
 class CreateInvoice extends Request implements HasBody
 {
     use HasJsonBody;
+    use HasPositions;
 
     protected Method $method = Method::POST;
+    protected array $sevdeskConfig = [];
 
     public function __construct(
         protected int $contactId,
+        protected array $items,
         protected array $data,
     ) {
-        $this->data['contact'] = [
-            'id' => $contactId,
-            'objectName' => 'Contact',
-        ];
     }
 
     public function resolveEndpoint(): string
@@ -72,6 +76,73 @@ class CreateInvoice extends Request implements HasBody
 
     public function defaultBody(): array
     {
-        return $this->data;
+        return [
+            'invoice'            => [
+                'objectName'           => 'Invoice',
+                'mapAll'               => 'true',
+                'invoiceNumber'        => $this->data['invoiceNumber'] ?? null,
+                'contact'              => [
+                    'id'         => $this->contactId,
+                    'objectName' => 'Contact'
+                ],
+                'contactPerson'        => [
+                    'id'         => $this->sevdeskConfig['sevUserId'],
+                    'objectName' => 'SevUser'
+                ],
+                'invoiceDate'          => $this->data['invoiceDate'] ?? date('Y-m-d H:i:s'),
+                'header'               => $this->data['header'] ?? null,
+                'headText'             => $this->data['headText'] ?? null,
+                'footText'             => $this->data['footText'] ?? null,
+                'timeToPay'            => $this->data['timeToPay'] ?? null,
+                'discount'             => $this->data['discount'] ?? 0,
+                'address'              => $this->data['address'] ?? null,
+                'addressCountry'       => [
+                    'id'         => $this->data['country'] ?? Countries::GERMANY->value,
+                    'objectName' => 'StaticCountry'
+                ],
+                'payDay'               => $this->data['payDay'] ?? null,
+                'deliveryDate'         => $this->data['deliveryDate'] ?? date('Y-m-d H:i:s'),
+                'deliveryDateUntil'    => $this->data['deliveryDateUntil'] ?? null,
+                'status'               => $this->data['status'] ?? InvoiceStatus::DRAFT->value,
+                'smallSettlement'      => $this->data['smallSettlement'] ?? null,
+                'taxRate'              => $this->data['taxRate'] ?? $this->sevdeskConfig['taxRate'],
+                'taxText'              => $this->data['taxText'] ?? $this->sevdeskConfig['taxText'],
+                // ==== only in version 1.0 ====
+                'taxType'              => $this->data['taxType'] ?? $this->sevdeskConfig['taxType'],
+                'taxSet'               => empty($this->data['taxSetId']) ? null : [
+                    'id'         => $this->data['taxSetId'],
+                    'objectName' => 'TaxSet'
+                ],
+                // ==== only in version 2.0 ====
+                'taxRule'              => [
+                    'id'         => $this->sevdeskConfig['taxRule'],
+                    'objectName' => 'TaxRule',
+                ],
+                // =============================
+                'paymentMethod'        => empty($this->data['paymentMethodId']) ? null : [
+                    'id'         => $this->data['paymentMethodId'],
+                    'objectName' => 'PaymentMethod',
+                ],
+                'sendDate'             => $this->data['sendDate'] ?? date('Y-m-d H:i:s'),
+                'invoiceType'          => $this->data['invoiceType'] ?? $this->sevdeskConfig['invoiceType'],
+                'currency'             => $this->data['currency'] ?? $this->sevdeskConfig['currency'],
+                'showNet'              => $this->data['showNet'] ?? null,
+                'sendType'             => $this->data['sendType'] ?? null,
+                'origin'               => empty($this->data['originId']) || empty($this->data['originModel']) ? null : [
+                    'id'         => $this->data['originId'],
+                    'objectName' => $this->data['originModel'],
+                ],
+                'customerInternalNote' => $this->data['customerInternalNote'] ?? null,
+            ],
+            'takeDefaultAddress' => 'true',
+            'invoicePosSave'     => self::getPositions($this->items, $this->sevdeskConfig, 'invoice'),
+        ];
+    }
+
+    public function setConfig(array $config): static
+    {
+        $this->sevdeskConfig = $config;
+
+        return $this;
     }
 }

@@ -38,9 +38,9 @@ class Order extends Resource
         return $this->connector->sevSend(new GetOrders($status, $orderNumber, $startDate, $endDate, $contactid, $contactobjectName));
     }
 
-    public function create(int $contactId, array $data): array
+    public function create(int $contactId, array $items, array $data): array
     {
-        return $this->connector->sevSend(new CreateOrder($contactId, $data));
+        return $this->connector->sevSend(new CreateOrder($contactId, $items, $data));
     }
 
     public function getById(int $orderId): array

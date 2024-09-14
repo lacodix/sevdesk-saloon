@@ -2,6 +2,7 @@
 
 namespace Lacodix\SevdeskSaloon;
 
+use Exception;
 use Lacodix\SevdeskSaloon\Resource\AccountingContact;
 use Lacodix\SevdeskSaloon\Resource\Basics;
 use Lacodix\SevdeskSaloon\Resource\CheckAccount;
@@ -27,16 +28,69 @@ use Saloon\Http\Auth\QueryAuthenticator;
 use Saloon\Http\Connector;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Request;
+use Saloon\Http\Response;
 
 class SevdeskSaloon extends Connector
 {
-    public function __construct(public readonly string $token)
+    /**
+     * needed config
+     * 'tax_rate'     => 19
+     * 'tax_text'     => 'VAT 19%'   // only in version 1.0
+     * 'tax_type'     => 'default'   // only in version 1.0
+     * 'tax_rule'     => 1           // only in version 2.0
+     * 'currency'     => 'EUR'
+     * 'invoice_type' => 'RE'
+     */
+    public function __construct(
+        public readonly string $token,
+        public readonly array $sevdeskConfig,
+    ) {
+        // Check all necessary config values
+        if (! isset($sevdeskConfig['sevUserId'])) {
+            throw new Exception('Sevdesk user ID not set!');
+        }
+
+        if (! isset($sevdeskConfig['taxRate'])) {
+            throw new Exception('Sevdesk tax rate not set!');
+        }
+
+        if (! isset($sevdeskConfig['taxText'])) {
+            throw new Exception('Sevdesk tax text not set!');
+        }
+
+        if (! isset($sevdeskConfig['taxType'])) {
+            throw new Exception('Sevdesk tax type not set!');
+        }
+
+        if (! isset($sevdeskConfig['taxRule'])) {
+            throw new Exception('Sevdesk tax rule not set!');
+        }
+
+        if (! isset($sevdeskConfig['currency'])) {
+            throw new Exception('Sevdesk currency not set!');
+        }
+
+        if (! isset($sevdeskConfig['invoiceType'])) {
+            throw new Exception('Sevdesk invoice type not set!');
+        }
+    }
+
+    public function send(Request $request, MockClient $mockClient = null, callable $handleRetry = null): Response
     {
+        if (method_exists($request, 'setConfig')) {
+            $request->setConfig($this->sevdeskConfig);
+        }
+
+        return parent::send($request, $mockClient, $handleRetry);
     }
 
     public function sevSend(Request $request, ?MockClient $mockClient = null, ?callable $handleRetry = null): array
     {
-        $response = parent::send($request, $mockClient, $handleRetry);
+        $response = $this->send($request, $mockClient, $handleRetry);
+
+        if (! $response->successful()) {
+            throw new \Exception($response->body());
+        }
 
         return $response->json()['objects'];
     }
