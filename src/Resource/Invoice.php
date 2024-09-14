@@ -19,7 +19,7 @@ use Lacodix\SevdeskSaloon\Requests\Invoice\InvoiceResetToDraft;
 use Lacodix\SevdeskSaloon\Requests\Invoice\InvoiceResetToOpen;
 use Lacodix\SevdeskSaloon\Requests\Invoice\InvoiceSendBy;
 use Lacodix\SevdeskSaloon\Requests\Invoice\SendInvoiceViaEmail;
-use Lacodix\SevdeskSaloon\Requests\Tag\GetSevSequenceByType;
+use Lacodix\SevdeskSaloon\Requests\SevSequence\GetSevSequenceByType;
 use Lacodix\SevdeskSaloon\Resource;
 
 class Invoice extends Resource

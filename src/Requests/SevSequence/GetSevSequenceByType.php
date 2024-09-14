@@ -1,6 +1,6 @@
 <?php
 
-namespace Lacodix\SevdeskSaloon\Requests\Tag;
+namespace Lacodix\SevdeskSaloon\Requests\SevSequence;
 
 use Saloon\Enums\Method;
 use Saloon\Http\Request;

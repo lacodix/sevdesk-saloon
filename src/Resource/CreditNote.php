@@ -18,7 +18,7 @@ use Lacodix\SevdeskSaloon\Requests\CreditNote\GetCreditNotes;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\SendCreditNoteByPrinting;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\SendCreditNoteViaEmail;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\UpdatecreditNote;
-use Lacodix\SevdeskSaloon\Requests\Tag\GetSevSequenceByType;
+use Lacodix\SevdeskSaloon\Requests\SevSequence\GetSevSequenceByType;
 use Lacodix\SevdeskSaloon\Resource;
 
 class CreditNote extends Resource
