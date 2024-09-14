@@ -2,6 +2,7 @@
 
 namespace Lacodix\SevdeskSaloon\Resource;
 
+use Lacodix\SevdeskSaloon\Enums\SevSequenceObjectType;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\BookCreditNote;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\CreatecreditNote;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\CreateCreditNoteFromInvoice;
@@ -17,11 +18,17 @@ use Lacodix\SevdeskSaloon\Requests\CreditNote\GetCreditNotes;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\SendCreditNoteByPrinting;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\SendCreditNoteViaEmail;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\UpdatecreditNote;
+use Lacodix\SevdeskSaloon\Requests\Tag\GetSevSequenceByType;
 use Lacodix\SevdeskSaloon\Resource;
 use Saloon\Http\Response;
 
 class CreditNote extends Resource
 {
+    public function getNextSequeceNumber(string $type = 'CN')
+    {
+        return $this->connector->sevSend(new GetSevSequenceByType(SevSequenceObjectType::CREDIT_NOTE->value, $type));
+    }
+
     public function get(
         ?string $status = null,
         ?string $creditNoteNumber = null,

@@ -2,6 +2,7 @@
 
 namespace Lacodix\SevdeskSaloon\Resource;
 
+use Lacodix\SevdeskSaloon\Enums\SevSequenceObjectType;
 use Lacodix\SevdeskSaloon\Requests\Invoice\BookInvoice;
 use Lacodix\SevdeskSaloon\Requests\Invoice\CancelInvoice;
 use Lacodix\SevdeskSaloon\Requests\Invoice\CreateInvoice;
@@ -18,11 +19,17 @@ use Lacodix\SevdeskSaloon\Requests\Invoice\InvoiceResetToDraft;
 use Lacodix\SevdeskSaloon\Requests\Invoice\InvoiceResetToOpen;
 use Lacodix\SevdeskSaloon\Requests\Invoice\InvoiceSendBy;
 use Lacodix\SevdeskSaloon\Requests\Invoice\SendInvoiceViaEmail;
+use Lacodix\SevdeskSaloon\Requests\Tag\GetSevSequenceByType;
 use Lacodix\SevdeskSaloon\Resource;
 use Saloon\Http\Response;
 
 class Invoice extends Resource
 {
+    public function getNextSequeceNumber(string $type = 'RE')
+    {
+        return $this->connector->sevSend(new GetSevSequenceByType(SevSequenceObjectType::INVOICE->value, $type));
+    }
+
     /**
      * @param int $status Status of the invoices
      * @param string $invoiceNumber Retrieve all invoices with this invoice number
