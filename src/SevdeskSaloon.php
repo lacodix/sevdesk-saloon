@@ -27,7 +27,6 @@ use Saloon\Http\Auth\QueryAuthenticator;
 use Saloon\Http\Connector;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Request;
-use Saloon\Http\Response;
 
 class SevdeskSaloon extends Connector
 {
@@ -35,7 +34,7 @@ class SevdeskSaloon extends Connector
     {
     }
 
-    public function sevSend(Request $request, MockClient $mockClient = null, callable $handleRetry = null): array
+    public function sevSend(Request $request, ?MockClient $mockClient = null, ?callable $handleRetry = null): array
     {
         $response = parent::send($request, $mockClient, $handleRetry);
 

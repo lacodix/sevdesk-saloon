@@ -9,7 +9,6 @@ use Lacodix\SevdeskSaloon\Requests\CheckAccountTransaction\GetCheckAccountTransa
 use Lacodix\SevdeskSaloon\Requests\CheckAccountTransaction\GetTransactions;
 use Lacodix\SevdeskSaloon\Requests\CheckAccountTransaction\UpdateCheckAccountTransaction;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class CheckAccountTransaction extends Resource
 {

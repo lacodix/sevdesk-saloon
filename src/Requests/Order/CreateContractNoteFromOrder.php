@@ -17,12 +17,13 @@ class CreateContractNoteFromOrder extends Request implements HasBody
     use HasJsonBody;
 
     protected Method $method = Method::POST;
+    protected array $data = [];
 
     public function __construct(
-        protected int $orderid,
+        protected int $orderId,
     ) {
         $this->data['order'] = [
-            'id' => $invoiceId,
+            'id' => $orderId,
             'objectName' => 'Order',
         ];
     }

@@ -8,7 +8,6 @@ use Lacodix\SevdeskSaloon\Requests\ContactAddress\DeleteContactAddress;
 use Lacodix\SevdeskSaloon\Requests\ContactAddress\GetContactAddresses;
 use Lacodix\SevdeskSaloon\Requests\ContactAddress\UpdateContactAddress;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class ContactAddress extends Resource
 {

@@ -7,7 +7,6 @@ use Lacodix\SevdeskSaloon\Requests\OrderPos\GetOrderPositionById;
 use Lacodix\SevdeskSaloon\Requests\OrderPos\GetOrderPositions;
 use Lacodix\SevdeskSaloon\Requests\OrderPos\UpdateOrderPosition;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class OrderPos extends Resource
 {
@@ -25,7 +24,7 @@ class OrderPos extends Resource
     {
         return $this->connector->sevSend(new UpdateOrderPosition($orderPosId, $data));
     }
-    
+
     public function delete(int $orderPosId): array
     {
         return $this->connector->sevSend(new DeleteOrderPos($orderPosId));

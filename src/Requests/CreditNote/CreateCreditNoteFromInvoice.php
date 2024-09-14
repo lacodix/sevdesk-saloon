@@ -17,7 +17,7 @@ class CreateCreditNoteFromInvoice extends Request implements HasBody
     use HasJsonBody;
 
     protected Method $method = Method::POST;
-    protected array $data;
+    protected array $data = [];
 
     public function __construct(
         protected int $invoiceId,

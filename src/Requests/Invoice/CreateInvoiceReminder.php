@@ -17,12 +17,8 @@ class CreateInvoiceReminder extends Request implements HasBody
     use HasJsonBody;
 
     protected Method $method = Method::POST;
-    protected array $data;
+    protected array $data = [];
 
-    /**
-     * @param int $invoiceId the id of the invoice
-     * @param string $invoiceobjectName Model name, which is 'Invoice'
-     */
     public function __construct(
         protected int $invoiceId,
     ) {

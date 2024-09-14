@@ -17,13 +17,12 @@ use Lacodix\SevdeskSaloon\Requests\Voucher\VoucherResetToDraft;
 use Lacodix\SevdeskSaloon\Requests\Voucher\VoucherResetToOpen;
 use Lacodix\SevdeskSaloon\Requests\Voucher\VoucherUploadFile;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class Voucher extends Resource
 {
     public function create(array $data): array
     {
-        return $this->connector->sevSend(new CreateVoucher());
+        return $this->connector->sevSend(new CreateVoucher($data));
     }
 
     public function uploadFile(string $file): array
@@ -32,7 +31,7 @@ class Voucher extends Resource
     }
 
     /**
-     * @param float|int $status Status of the vouchers to retrieve.
+     * @param int $status Status of the vouchers to retrieve.
      * @param string $creditDebit Define if you only want credit or debit vouchers.
      * @param string $descriptionLike Retrieve all vouchers with a description like this.
      * @param int $startDate Retrieve all vouchers with a date equal or higher

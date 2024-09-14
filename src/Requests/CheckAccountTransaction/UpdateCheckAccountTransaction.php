@@ -15,7 +15,7 @@ use Saloon\Traits\Body\HasJsonBody;
 class UpdateCheckAccountTransaction extends Request implements HasBody
 {
     use HasJsonBody;
-    
+
     protected Method $method = Method::PUT;
 
     /**

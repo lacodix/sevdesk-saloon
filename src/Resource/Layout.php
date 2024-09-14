@@ -8,7 +8,6 @@ use Lacodix\SevdeskSaloon\Requests\Layout\UpdateCreditNoteTemplate;
 use Lacodix\SevdeskSaloon\Requests\Layout\UpdateInvoiceTemplate;
 use Lacodix\SevdeskSaloon\Requests\Layout\UpdateOrderTemplate;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class Layout extends Resource
 {
@@ -24,7 +23,7 @@ class Layout extends Resource
 
     public function updateInvoiceTemplate(int $invoiceId, array $data): array
     {
-        return $this->connector->sevSend(new UpdateInvoiceTemplate($invoiceId));
+        return $this->connector->sevSend(new UpdateInvoiceTemplate($invoiceId, $data));
     }
 
     public function updateOrderTemplate(int $orderId, array $data): array

@@ -21,7 +21,6 @@ use Lacodix\SevdeskSaloon\Requests\Invoice\InvoiceSendBy;
 use Lacodix\SevdeskSaloon\Requests\Invoice\SendInvoiceViaEmail;
 use Lacodix\SevdeskSaloon\Requests\Tag\GetSevSequenceByType;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class Invoice extends Resource
 {
@@ -101,7 +100,7 @@ class Invoice extends Resource
 
     public function sendBy(int $invoiceId, array $data): array
     {
-        return $this->connector->sevSend(new InvoiceSendBy($invoiceId, $array));
+        return $this->connector->sevSend(new InvoiceSendBy($invoiceId, $data));
     }
 
     public function enshrine(int $invoiceId): array

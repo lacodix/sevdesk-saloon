@@ -8,7 +8,6 @@ use Lacodix\SevdeskSaloon\Requests\Part\GetParts;
 use Lacodix\SevdeskSaloon\Requests\Part\PartGetStock;
 use Lacodix\SevdeskSaloon\Requests\Part\UpdatePart;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class Part extends Resource
 {

@@ -10,7 +10,7 @@ use Saloon\Traits\Body\HasJsonBody;
 class UpdateAccountingContact extends Request implements HasBody
 {
     use HasJsonBody;
-    
+
     protected Method $method = Method::PUT;
 
     public function __construct(

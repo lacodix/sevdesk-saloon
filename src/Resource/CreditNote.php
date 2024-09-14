@@ -20,7 +20,6 @@ use Lacodix\SevdeskSaloon\Requests\CreditNote\SendCreditNoteViaEmail;
 use Lacodix\SevdeskSaloon\Requests\CreditNote\UpdatecreditNote;
 use Lacodix\SevdeskSaloon\Requests\Tag\GetSevSequenceByType;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class CreditNote extends Resource
 {

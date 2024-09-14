@@ -15,7 +15,6 @@ use Lacodix\SevdeskSaloon\Requests\ContactField\GetReferenceCount;
 use Lacodix\SevdeskSaloon\Requests\ContactField\UpdateContactfield;
 use Lacodix\SevdeskSaloon\Requests\ContactField\UpdateContactFieldSetting;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class ContactField extends Resource
 {

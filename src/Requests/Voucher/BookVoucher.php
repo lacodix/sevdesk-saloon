@@ -28,7 +28,7 @@ class BookVoucher extends Request implements HasBody
      */
     public function __construct(
         protected int $voucherId,
-        protected array $dat,
+        protected array $data,
     ) {
     }
 

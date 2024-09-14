@@ -8,7 +8,6 @@ use Lacodix\SevdeskSaloon\Requests\AccountingContact\GetAccountingContact;
 use Lacodix\SevdeskSaloon\Requests\AccountingContact\GetAccountingContactById;
 use Lacodix\SevdeskSaloon\Requests\AccountingContact\UpdateAccountingContact;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class AccountingContact extends Resource
 {
@@ -32,7 +31,7 @@ class AccountingContact extends Resource
         return $this->connector->sevSend(new UpdateAccountingContact($accountingContactId, $data));
     }
 
-    public function delete(int $accountingContactId): Response
+    public function delete(int $accountingContactId): array
     {
         return $this->connector->sevSend(new DeleteAccountingContact($accountingContactId));
     }

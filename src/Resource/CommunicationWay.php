@@ -9,7 +9,6 @@ use Lacodix\SevdeskSaloon\Requests\CommunicationWay\GetCommunicationWayKeys;
 use Lacodix\SevdeskSaloon\Requests\CommunicationWay\GetCommunicationWays;
 use Lacodix\SevdeskSaloon\Requests\CommunicationWay\UpdateCommunicationWay;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class CommunicationWay extends Resource
 {

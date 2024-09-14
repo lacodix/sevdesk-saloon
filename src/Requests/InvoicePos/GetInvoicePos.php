@@ -15,10 +15,10 @@ class GetInvoicePos extends Request
     protected Method $method = Method::GET;
 
     /**
-     * @param float|int|null $id Retrieve all InvoicePos with this InvoicePos id
-     * @param float|int|null $invoiceid Retrieve all invoices positions with this invoice. Must be provided with invoice[objectName]
+     * @param int|null $id Retrieve all InvoicePos with this InvoicePos id
+     * @param int|null $invoiceid Retrieve all invoices positions with this invoice. Must be provided with invoice[objectName]
      * @param string|null $invoiceobjectName Only required if invoice[id] was provided. 'Invoice' should be used as value.
-     * @param float|int|null $partid Retrieve all invoices positions with this part. Must be provided with part[objectName]
+     * @param int|null $partid Retrieve all invoices positions with this part. Must be provided with part[objectName]
      * @param string|null $partobjectName Only required if part[id] was provided. 'Part' should be used as value.
      */
     public function __construct(

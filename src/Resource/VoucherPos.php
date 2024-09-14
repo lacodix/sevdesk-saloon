@@ -4,7 +4,6 @@ namespace Lacodix\SevdeskSaloon\Resource;
 
 use Lacodix\SevdeskSaloon\Requests\VoucherPos\GetVoucherPositions;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class VoucherPos extends Resource
 {

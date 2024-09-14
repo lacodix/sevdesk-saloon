@@ -4,7 +4,6 @@ namespace Lacodix\SevdeskSaloon\Resource;
 
 use Lacodix\SevdeskSaloon\Requests\CreditNotePos\GetcreditNotePositions;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class CreditNotePos extends Resource
 {

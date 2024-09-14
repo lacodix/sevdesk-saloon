@@ -12,7 +12,6 @@ use Lacodix\SevdeskSaloon\Requests\Export\ExportVoucher;
 use Lacodix\SevdeskSaloon\Requests\Export\ExportVoucherZip;
 use Lacodix\SevdeskSaloon\Requests\Export\UpdateExportConfig;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class Export extends Resource
 {

@@ -13,7 +13,6 @@ use Lacodix\SevdeskSaloon\Requests\Contact\GetContactTabsItemCountById;
 use Lacodix\SevdeskSaloon\Requests\Contact\GetNextCustomerNumber;
 use Lacodix\SevdeskSaloon\Requests\Contact\UpdateContact;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class Contact extends Resource
 {

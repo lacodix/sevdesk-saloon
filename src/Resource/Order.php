@@ -16,7 +16,6 @@ use Lacodix\SevdeskSaloon\Requests\Order\OrderSendBy;
 use Lacodix\SevdeskSaloon\Requests\Order\SendorderViaEmail;
 use Lacodix\SevdeskSaloon\Requests\Order\UpdateOrder;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class Order extends Resource
 {
@@ -79,19 +78,19 @@ class Order extends Resource
         return $this->connector->sevSend(new SendorderViaEmail($orderId, $data));
     }
 
-    public function createPackingListFromOrder(int $orderid): array
+    public function createPackingListFromOrder(int $orderId): array
     {
-        return $this->connector->sevSend(new CreatePackingListFromOrder($orderid));
+        return $this->connector->sevSend(new CreatePackingListFromOrder($orderId));
     }
 
-    public function createContractNoteFromOrder(int $orderid): array
+    public function createContractNoteFromOrder(int $orderId): array
     {
-        return $this->connector->sevSend(new CreateContractNoteFromOrder($orderid));
+        return $this->connector->sevSend(new CreateContractNoteFromOrder($orderId));
     }
 
     public function getPdf(int $orderId, ?bool $download = null, ?bool $preventSendBy = null): array
     {
-        return $this->connector->send(new OrderGetPdf($orderId, $download, $preventSendBy))->json();;
+        return $this->connector->send(new OrderGetPdf($orderId, $download, $preventSendBy))->json();
     }
 
     public function sendBy(int $orderId, array $data): array

@@ -9,7 +9,6 @@ use Lacodix\SevdeskSaloon\Requests\Tag\GetTagRelations;
 use Lacodix\SevdeskSaloon\Requests\Tag\GetTags;
 use Lacodix\SevdeskSaloon\Requests\Tag\UpdateTag;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class Tag extends Resource
 {

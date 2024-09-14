@@ -7,7 +7,6 @@ use Lacodix\SevdeskSaloon\Requests\Report\ReportInvoice;
 use Lacodix\SevdeskSaloon\Requests\Report\ReportOrder;
 use Lacodix\SevdeskSaloon\Requests\Report\ReportVoucher;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class Report extends Resource
 {

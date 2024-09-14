@@ -11,7 +11,6 @@ use Lacodix\SevdeskSaloon\Requests\CheckAccount\GetCheckAccountById;
 use Lacodix\SevdeskSaloon\Requests\CheckAccount\GetCheckAccounts;
 use Lacodix\SevdeskSaloon\Requests\CheckAccount\UpdateCheckAccount;
 use Lacodix\SevdeskSaloon\Resource;
-use Saloon\Http\Response;
 
 class CheckAccount extends Resource
 {
