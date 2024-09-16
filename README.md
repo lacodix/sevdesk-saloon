@@ -7,8 +7,9 @@
 
 ## Documentation
 
+** WORK IN PROGRESS _ DOCUMENTATION NOT READY **
+
 You can find the entire documentation for this package on [our documentation site](https://www.lacodix.de/docs/sevdesk-saloon).
-Including several usecases with detailed explanation.
 
 This package helps you to consume the Sevdesk API with your PHP projects. The package is based on Saloon
 https://api.sevdesk.de/
@@ -21,81 +22,44 @@ composer require lacodix/sevdesk-saloon
 
 ## Quickstart
 
-To get familiar with all settings and possibilities, please see the more detailed examples. This is only
-a very quick overview how the package can work.
-
-### Subscribers
-
-Add our HasSubscription Trait to any model.
+Create an API Connector first. You have to provide some configuration data, to get the sevdesk api working. There 
+are several settings that you'd have to set in all requests otherwise, like default tax rates and your api user id.
 
 ```php 
-use Lacodix\LaravelPlans\Models\Traits\HasSubscriptions;
+use Lacodix\SevdeskSaloon\SevdeskSaloon;
 
-class User extends Authenticatable {
-    use HasSubscription;
+$sevdeskSaloon = new SevdeskSaloon(
+    $api_token, // Your API Token - get it in your Sevdesk account
+    [
+        'sevUserId'   => 12345678,     // the Sevdesk Uer ID - needed to create invoices
+        'taxRate'     => 19,
+        'taxText'     => 'MwSt 19%',   // only in version 1.0
+        'taxType'     => 'default',    // only in version 1.0
+        'taxRule'     => 1,            // only in version 2.0
+        'currency'    => 'EUR',
+        'invoiceType' => 'RE',
+    ]
+);
+```
+
+## Consuming the Api
+
+With the connector you can just consume all existing API resources
+
+```php
+    $sevdeskSaloon->contact()->get();
+    $sevdeskSaloon->contact()->create($contactType, $contactData);
     
-    ...
-}
-```
+    $sevdeskSaloon->invoice()->get();
+    $sevdeskSaloon->invoice()->create($sevContactId, $items, $data);
+    $sevdeskSaloon->invoice()->sendViaEmail($invoiceId, $data);
+``` 
 
-### Plans and Features
+## Mock API Calls in your tests
 
-Create a Plan with Features (the latter is optional, if you don't need feature functionality).
+Since this package is based on Saloon, you can just use the MockClient to mock all requests in your tests.
 
-```php 
-use Lacodix\LaravelPlans\Enums\Interval;
-use Lacodix\LaravelPlans\Models\Feature;
-use Lacodix\LaravelPlans\Models\Plan;
-
-$myPlan = Plan::create([
-    'slug' => 'my-plan',
-    'name' => 'My Plan', // can also be locale-array - see Feature below
-    'price' => 50.0,
-    'active' => true,
-    'billing_interval' => Interval::MONTH,
-    'billing_period' => 1,
-    'meta' => [
-        'price_per_token' => 0.05,
-    ],
-]);
-
-$myFeature = Feature::create([
-    'slug' => 'tokens',
-    'name' => [
-        'de' => 'Zusätzliche Tokens',
-        'en' => 'Additional Tokens',
-    ],
-]);
-
-$myPlan->features()->attach($myFeature, [
-    'value' => 1000,
-    'resettable_period' => 1,
-    'resettable_interval' => Interval::MONTH,
-]);
-```
-
-### Subscribe and renew
-
-```php 
-// Subscribe to multiple plans
-$user->subscribe($myPlan1, 'main');
-$user->subscribe($myPlan2, 'addon');
-
-// Change Subscription
-$user->subscribe($myPlan3, 'main'); // will replace myPlan1 subscription
-
-// Renew
-$user->subscriptions()->first()->renew();
-
-// Cancel
-$user->subscriptions()->first()->cancel();
-```
-
-## Testing
-
-```bash
-composer test
-```
+See [Saloon Documentation](https://docs.saloon.dev/the-basics/testing#testing-your-application) for more information.
 
 ## Contributing
 
