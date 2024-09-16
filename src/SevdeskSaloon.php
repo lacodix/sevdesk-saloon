@@ -181,7 +181,7 @@ class SevdeskSaloon extends Connector
         return new QueryAuthenticator('token', $this->token);
     }
 
-    protected function checkSevdeskConfig(array $sevdeskConfig)
+    protected function checkSevdeskConfig(array $sevdeskConfig): void
     {
         // Check all necessary config values
         if (! isset($sevdeskConfig['sevUserId'])) {
