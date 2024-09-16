@@ -90,7 +90,7 @@ class Order extends Resource
 
     public function getPdf(int $orderId, ?bool $download = null, ?bool $preventSendBy = null): array
     {
-        return $this->connector->send(new OrderGetPdf($orderId, $download, $preventSendBy))->json();
+        return $this->connector->sevSend(new OrderGetPdf($orderId, $download, $preventSendBy));
     }
 
     public function sendBy(int $orderId, array $data): array

@@ -95,7 +95,7 @@ class Invoice extends Resource
 
     public function getPdf(int $invoiceId, ?bool $download = null, ?bool $preventSendBy = null): array
     {
-        return $this->connector->send(new InvoiceGetPdf($invoiceId, $download, $preventSendBy))->json();
+        return $this->connector->sevSend(new InvoiceGetPdf($invoiceId, $download, $preventSendBy));
     }
 
     public function sendBy(int $invoiceId, array $data): array

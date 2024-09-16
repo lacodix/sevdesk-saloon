@@ -13,12 +13,12 @@ class Layout extends Resource
 {
     public function getLetterpapers(): array
     {
-        return $this->connector->send(new GetLetterpapersWithThumb())->json()['letterpapers'];
+        return $this->connector->sevSend(new GetLetterpapersWithThumb());
     }
 
     public function getTemplates(?string $type): array
     {
-        return $this->connector->send(new GetTemplates($type))->json()['templates'];
+        return $this->connector->sevSend(new GetTemplates($type));
     }
 
     public function updateInvoiceTemplate(int $invoiceId, array $data): array

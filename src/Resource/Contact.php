@@ -82,6 +82,6 @@ class Contact extends Resource
 
     public function getItemCountById(int $contactId): array
     {
-        return $this->connector->send(new GetContactTabsItemCountById($contactId))->json();
+        return $this->connector->sevSend(new GetContactTabsItemCountById($contactId));
     }
 }

@@ -86,7 +86,7 @@ class CreditNote extends Resource
 
     public function getPdf(int $creditNoteId, ?bool $download = null, ?bool $preventSendBy = null): array
     {
-        return $this->connector->send(new CreditNoteGetPdf($creditNoteId, $download, $preventSendBy))->json();
+        return $this->connector->sevSend(new CreditNoteGetPdf($creditNoteId, $download, $preventSendBy));
     }
 
     public function sendViaEmail(int $creditNoteId, array $data): array
