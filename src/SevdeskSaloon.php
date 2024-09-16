@@ -21,6 +21,7 @@ use Lacodix\SevdeskSaloon\Resource\Order;
 use Lacodix\SevdeskSaloon\Resource\OrderPos;
 use Lacodix\SevdeskSaloon\Resource\Part;
 use Lacodix\SevdeskSaloon\Resource\Report;
+use Lacodix\SevdeskSaloon\Resource\SevUser;
 use Lacodix\SevdeskSaloon\Resource\Tag;
 use Lacodix\SevdeskSaloon\Resource\Voucher;
 use Lacodix\SevdeskSaloon\Resource\VoucherPos;
@@ -32,52 +33,17 @@ use Saloon\Http\Response;
 
 class SevdeskSaloon extends Connector
 {
-    /**
-     * needed config
-     * 'tax_rate'     => 19
-     * 'tax_text'     => 'VAT 19%'   // only in version 1.0
-     * 'tax_type'     => 'default'   // only in version 1.0
-     * 'tax_rule'     => 1           // only in version 2.0
-     * 'currency'     => 'EUR'
-     * 'invoice_type' => 'RE'
-     */
     public function __construct(
         public readonly string $token,
-        public readonly array $sevdeskConfig,
+        public readonly ?array $sevdeskConfig = null,
     ) {
-        // Check all necessary config values
-        if (! isset($sevdeskConfig['sevUserId'])) {
-            throw new Exception('Sevdesk user ID not set!');
-        }
-
-        if (! isset($sevdeskConfig['taxRate'])) {
-            throw new Exception('Sevdesk tax rate not set!');
-        }
-
-        if (! isset($sevdeskConfig['taxText'])) {
-            throw new Exception('Sevdesk tax text not set!');
-        }
-
-        if (! isset($sevdeskConfig['taxType'])) {
-            throw new Exception('Sevdesk tax type not set!');
-        }
-
-        if (! isset($sevdeskConfig['taxRule'])) {
-            throw new Exception('Sevdesk tax rule not set!');
-        }
-
-        if (! isset($sevdeskConfig['currency'])) {
-            throw new Exception('Sevdesk currency not set!');
-        }
-
-        if (! isset($sevdeskConfig['invoiceType'])) {
-            throw new Exception('Sevdesk invoice type not set!');
-        }
     }
 
     public function send(Request $request, ?MockClient $mockClient = null, ?callable $handleRetry = null): Response
     {
         if (method_exists($request, 'setConfig')) {
+            $this->checkSevdeskConfig($this->sevdeskConfig ?? []);
+
             $request->setConfig($this->sevdeskConfig);
         }
 
@@ -195,6 +161,11 @@ class SevdeskSaloon extends Connector
         return new Tag($this);
     }
 
+    public function sevUser(): SevUser
+    {
+        return new SevUser($this);
+    }
+
     public function voucher(): Voucher
     {
         return new Voucher($this);
@@ -208,5 +179,37 @@ class SevdeskSaloon extends Connector
     protected function defaultAuth(): QueryAuthenticator
     {
         return new QueryAuthenticator('token', $this->token);
+    }
+
+    protected function checkSevdeskConfig(array $sevdeskConfig)
+    {
+        // Check all necessary config values
+        if (! isset($sevdeskConfig['sevUserId'])) {
+            throw new Exception('Sevdesk user ID not set!');
+        }
+
+        if (! isset($sevdeskConfig['taxRate'])) {
+            throw new Exception('Sevdesk tax rate not set!');
+        }
+
+        if (! isset($sevdeskConfig['taxText'])) {
+            throw new Exception('Sevdesk tax text not set!');
+        }
+
+        if (! isset($sevdeskConfig['taxType'])) {
+            throw new Exception('Sevdesk tax type not set!');
+        }
+
+        if (! isset($sevdeskConfig['taxRule'])) {
+            throw new Exception('Sevdesk tax rule not set!');
+        }
+
+        if (! isset($sevdeskConfig['currency'])) {
+            throw new Exception('Sevdesk currency not set!');
+        }
+
+        if (! isset($sevdeskConfig['invoiceType'])) {
+            throw new Exception('Sevdesk invoice type not set!');
+        }
     }
 }
