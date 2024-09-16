@@ -104,13 +104,15 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 ## Credits
 
 - [lacodix](https://github.com/lacodix)
-- [laravel Cameroon](https://github.com/laravelcm)
+- [Martin Applemann](https://github.com/exlo89) for [laravel-sevdesk-api](https://github.com/exlo89/laravel-sevdesk-api)
+- [Sam Carré](https://github.com/Sammyjo20) for [Saloon](https://github.com/saloonphp/saloon)
 
-This package is inspired by [Laravel Subscriptions](https://github.com/laravelcm/laravel-subscriptions) created 
-by Laravel Cameroon and was initially started as a fork of it. After several decisions to go different ways for
-subscription calculation, it was rewritten from scratch, but still contains several simple methods and other code 
-parts of the original. So if this package doesn't fit your needs, try a look into Laravel Cameroons subscription
-package.
+With the first usage of Sevdesk API we used the package [laravel-sevdesk-api](https://github.com/exlo89/laravel-sevdesk-api)
+created by Martin. Nevertheless we had some issues, for example when downloading invoices as PDF, which Martin solved 
+via a direkt print out of the pdf, while we wanted to save the PDF on our side. Finally the testability with mocking 
+the default Guzzle Client is a impertinence, why we decided to make our own package based on Saloon and with no 
+dependency on Laravel, so you can also use it in other composer based PHP Projects. Some few parts are still based
+on Martins package like the Countries-Enum.
 
 ## License
 
