@@ -42,6 +42,30 @@ $sevdeskSaloon = new SevdeskSaloon(
 );
 ```
 
+## Get Your API User Id
+
+Unfortunately Sevdesk doesn't show up the user ids on the UI. So you have to consume the API without configuration
+for the first time. You can just run the following code (you need a valid token).
+
+```php
+    $sevdeskSaloon = new SevdeskSaloon($api_token);
+    $sevdeskSaloon->sevUsers->get();
+```
+
+this will return an array of all sevUsers in your account. Take the ID and save it in your configuration.
+
+```php 
+[
+    [
+      "id" => "1234567",
+      "objectName" => "SevUser",
+      "additionalInformation" => null,
+      "create" => ...,
+      ...
+    ]
+]
+```
+
 ## Consuming the Api
 
 With the connector you can just consume all existing API resources

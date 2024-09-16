@@ -21,6 +21,7 @@ use Lacodix\SevdeskSaloon\Resource\Order;
 use Lacodix\SevdeskSaloon\Resource\OrderPos;
 use Lacodix\SevdeskSaloon\Resource\Part;
 use Lacodix\SevdeskSaloon\Resource\Report;
+use Lacodix\SevdeskSaloon\Resource\SevUser;
 use Lacodix\SevdeskSaloon\Resource\Tag;
 use Lacodix\SevdeskSaloon\Resource\Voucher;
 use Lacodix\SevdeskSaloon\Resource\VoucherPos;
@@ -32,15 +33,6 @@ use Saloon\Http\Response;
 
 class SevdeskSaloon extends Connector
 {
-    /**
-     * needed config
-     * 'tax_rate'     => 19
-     * 'tax_text'     => 'VAT 19%'   // only in version 1.0
-     * 'tax_type'     => 'default'   // only in version 1.0
-     * 'tax_rule'     => 1           // only in version 2.0
-     * 'currency'     => 'EUR'
-     * 'invoice_type' => 'RE'
-     */
     public function __construct(
         public readonly string $token,
         public readonly ?array $sevdeskConfig = null,
@@ -167,6 +159,11 @@ class SevdeskSaloon extends Connector
     public function tag(): Tag
     {
         return new Tag($this);
+    }
+
+    public function sevUser(): SevUser
+    {
+        return new SevUser($this);
     }
 
     public function voucher(): Voucher
