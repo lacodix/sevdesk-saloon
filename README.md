@@ -49,7 +49,7 @@ for the first time. You can just run the following code (you need a valid token)
 
 ```php
     $sevdeskSaloon = new SevdeskSaloon($api_token);
-    $sevdeskSaloon->sevUsers->get();
+    $sevdeskSaloon->sevUser()->get();
 ```
 
 this will return an array of all sevUsers in your account. Take the ID and save it in your configuration.

@@ -25,7 +25,7 @@ use Lacodix\SevdeskSaloon\Resource\SevUser;
 use Lacodix\SevdeskSaloon\Resource\Tag;
 use Lacodix\SevdeskSaloon\Resource\Voucher;
 use Lacodix\SevdeskSaloon\Resource\VoucherPos;
-use Saloon\Http\Auth\QueryAuthenticator;
+use Saloon\Http\Auth\TokenAuthenticator;
 use Saloon\Http\Connector;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Request;
@@ -176,9 +176,9 @@ class SevdeskSaloon extends Connector
         return new VoucherPos($this);
     }
 
-    protected function defaultAuth(): QueryAuthenticator
+    protected function defaultAuth(): TokenAuthenticator
     {
-        return new QueryAuthenticator('token', $this->token);
+        return new TokenAuthenticator($this->token);
     }
 
     protected function checkSevdeskConfig(array $sevdeskConfig): void
