@@ -2,6 +2,7 @@
 
 namespace Lacodix\SevdeskSaloon\Requests\Voucher;
 
+use Lacodix\SevdeskSaloon\Contracts\HasResultWrapper;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
@@ -29,7 +30,7 @@ use Saloon\Traits\Body\HasJsonBody;
  * vouchers. If you have to, you can downgrade the status by calling resetToOpen (from paid) and
  * resetToDraft (from open).
  */
-class CreateVoucher extends Request implements HasBody
+class CreateVoucher extends Request implements HasBody, HasResultWrapper
 {
     use HasJsonBody;
 
@@ -48,5 +49,12 @@ class CreateVoucher extends Request implements HasBody
     public function defaultBody(): array
     {
         return $this->data;
+    }
+
+    public function getResultWrapper(): ?string
+    {
+        // The Factory/saveVoucher endpoint returns its payload at the top level
+        // without an "objects" wrapper.
+        return null;
     }
 }

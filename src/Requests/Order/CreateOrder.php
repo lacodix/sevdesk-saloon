@@ -2,6 +2,7 @@
 
 namespace Lacodix\SevdeskSaloon\Requests\Order;
 
+use Lacodix\SevdeskSaloon\Contracts\HasResultWrapper;
 use Lacodix\SevdeskSaloon\Enums\Countries;
 use Lacodix\SevdeskSaloon\Enums\OrderStatus;
 use Lacodix\SevdeskSaloon\Traits\HasPositions;
@@ -15,7 +16,7 @@ use Saloon\Traits\Body\HasJsonBody;
  *
  * Creates an order to which positions can be added later.
  */
-class CreateOrder extends Request implements HasBody
+class CreateOrder extends Request implements HasBody, HasResultWrapper
 {
     use HasJsonBody;
     use HasPositions;
@@ -98,5 +99,12 @@ class CreateOrder extends Request implements HasBody
         $this->sevdeskConfig = $config;
 
         return $this;
+    }
+
+    public function getResultWrapper(): ?string
+    {
+        // The Factory/saveOrder endpoint returns its payload at the top level
+        // without an "objects" wrapper.
+        return null;
     }
 }
