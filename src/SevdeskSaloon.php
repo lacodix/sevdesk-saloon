@@ -3,6 +3,7 @@
 namespace Lacodix\SevdeskSaloon;
 
 use Exception;
+use Lacodix\SevdeskSaloon\Contracts\HasResultWrapper;
 use Lacodix\SevdeskSaloon\Resource\AccountingContact;
 use Lacodix\SevdeskSaloon\Resource\Basics;
 use Lacodix\SevdeskSaloon\Resource\CheckAccount;
@@ -58,7 +59,13 @@ class SevdeskSaloon extends Connector
             throw new \Exception($response->body());
         }
 
-        return $response->json()['objects'];
+        $wrapper = $request instanceof HasResultWrapper
+            ? $request->getResultWrapper()
+            : 'objects';
+
+        return $wrapper === null
+            ? $response->json()
+            : $response->json()[$wrapper];
     }
 
     public function resolveBaseUrl(): string
