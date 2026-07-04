@@ -2,7 +2,6 @@
 
 namespace Lacodix\SevdeskSaloon\Requests\CreditNote;
 
-use Lacodix\SevdeskSaloon\Contracts\HasResultWrapper;
 use Lacodix\SevdeskSaloon\Enums\Countries;
 use Lacodix\SevdeskSaloon\Enums\CreditNoteStatus;
 use Lacodix\SevdeskSaloon\Traits\HasPositions;
@@ -38,7 +37,7 @@ use Saloon\Traits\Body\HasJsonBody;
  * information left, is that the order of the last five attributes always needs to be kept.<br> You
  * will also always need to provide all of them, as otherwise the request won't work properly.
  */
-class CreateCreditNote extends Request implements HasBody, HasResultWrapper
+class CreateCreditNote extends Request implements HasBody
 {
     use HasJsonBody;
     use HasPositions;
@@ -119,12 +118,5 @@ class CreateCreditNote extends Request implements HasBody, HasResultWrapper
         $this->sevdeskConfig = $config;
 
         return $this;
-    }
-
-    public function getResultWrapper(): ?string
-    {
-        // The Factory/saveCreditNote endpoint returns its payload at the top level
-        // without an "objects" wrapper.
-        return null;
     }
 }

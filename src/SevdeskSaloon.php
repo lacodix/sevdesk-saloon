@@ -63,9 +63,14 @@ class SevdeskSaloon extends Connector
             ? $request->getResultWrapper()
             : 'objects';
 
+        $json = $response->json();
+
+        // The sevDesk OpenAPI spec and the live API disagree for some endpoints
+        // on whether the payload is wrapped; fall back to the full body when
+        // the expected wrapper key is missing.
         return $wrapper === null
-            ? $response->json()
-            : $response->json()[$wrapper];
+            ? $json
+            : ($json[$wrapper] ?? $json);
     }
 
     public function resolveBaseUrl(): string
