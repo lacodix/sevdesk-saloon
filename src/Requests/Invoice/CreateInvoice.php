@@ -2,7 +2,6 @@
 
 namespace Lacodix\SevdeskSaloon\Requests\Invoice;
 
-use Lacodix\SevdeskSaloon\Contracts\HasResultWrapper;
 use Lacodix\SevdeskSaloon\Enums\Countries;
 use Lacodix\SevdeskSaloon\Enums\InvoiceStatus;
 use Lacodix\SevdeskSaloon\Traits\HasPositions;
@@ -53,7 +52,7 @@ use Saloon\Traits\Body\HasJsonBody;
  * being later than the <b>invoiceDate</b>.<br> To do that you will need to create a so called
  * <b>Abschlagsrechnung</b> by setting the <b>invoiceType</b> parameter to <b>AR</b>.
  */
-class CreateInvoice extends Request implements HasBody, HasResultWrapper
+class CreateInvoice extends Request implements HasBody
 {
     use HasJsonBody;
     use HasPositions;
@@ -143,12 +142,5 @@ class CreateInvoice extends Request implements HasBody, HasResultWrapper
         $this->sevdeskConfig = $config;
 
         return $this;
-    }
-
-    public function getResultWrapper(): ?string
-    {
-        // The Factory/saveInvoice endpoint returns its payload at the top level
-        // ({ "invoice": {...}, "invoicePos": [...] }) without an "objects" wrapper.
-        return null;
     }
 }
