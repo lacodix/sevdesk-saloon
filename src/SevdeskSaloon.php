@@ -23,6 +23,7 @@ use Lacodix\SevdeskSaloon\Resource\OrderPos;
 use Lacodix\SevdeskSaloon\Resource\Part;
 use Lacodix\SevdeskSaloon\Resource\Report;
 use Lacodix\SevdeskSaloon\Resource\SevUser;
+use Lacodix\SevdeskSaloon\Resource\StaticCountry;
 use Lacodix\SevdeskSaloon\Resource\Tag;
 use Lacodix\SevdeskSaloon\Resource\Voucher;
 use Lacodix\SevdeskSaloon\Resource\VoucherPos;
@@ -56,7 +57,7 @@ class SevdeskSaloon extends Connector
         $response = $this->send($request, $mockClient, $handleRetry);
 
         if (! $response->successful()) {
-            throw new \Exception($response->body());
+            throw new \Exception($response->body(), $response->status());
         }
 
         $wrapper = $request instanceof HasResultWrapper
@@ -176,6 +177,11 @@ class SevdeskSaloon extends Connector
     public function sevUser(): SevUser
     {
         return new SevUser($this);
+    }
+
+    public function staticCountry(): StaticCountry
+    {
+        return new StaticCountry($this);
     }
 
     public function voucher(): Voucher
