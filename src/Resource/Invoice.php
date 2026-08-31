@@ -36,6 +36,7 @@ class Invoice extends Resource
      * @param int $endDate Retrieve all invoices with a date equal or lower
      * @param int $contactid Retrieve all invoices with this contact. Must be provided with contact[objectName]
      * @param string $contactobjectName Only required if contact[id] was provided. 'Contact' should be used as value.
+     * @param string $customerIntenalNote Retrieve invoices with this customer internal note. The misspelling is part of the sevDesk API.
      */
     public function get(
         ?int $status = null,
@@ -44,8 +45,22 @@ class Invoice extends Resource
         ?int $endDate = null,
         ?int $contactid = null,
         ?string $contactobjectName = null,
+        ?string $customerIntenalNote = null,
     ): array {
-        return $this->connector->sevSend(new GetInvoices($status, $invoiceNumber, $startDate, $endDate, $contactid, $contactobjectName));
+        return $this->connector->sevSend(new GetInvoices(
+            $status,
+            $invoiceNumber,
+            $startDate,
+            $endDate,
+            $contactid,
+            $contactobjectName,
+            $customerIntenalNote,
+        ));
+    }
+
+    public function findByCustomerInternalNote(string $customerInternalNote): array
+    {
+        return $this->connector->sevSend(new GetInvoices(customerIntenalNote: $customerInternalNote));
     }
 
     public function create(int $contactId, array $items, array $data): array

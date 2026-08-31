@@ -113,7 +113,7 @@ class CreateInvoice extends Request implements HasBody
                 ],
                 // ==== only in version 2.0 ====
                 'taxRule' => [
-                    'id' => $this->sevdeskConfig['taxRule'],
+                    'id' => $this->data['taxRuleId'] ?? $this->sevdeskConfig['taxRule'],
                     'objectName' => 'TaxRule',
                 ],
                 // =============================

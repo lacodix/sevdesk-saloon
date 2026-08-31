@@ -1,6 +1,9 @@
 <?php
 
 use Lacodix\SevdeskSaloon\SevdeskSaloon;
+use Saloon\Config;
+
+Config::preventStrayRequests();
 
 function connector(): SevdeskSaloon
 {

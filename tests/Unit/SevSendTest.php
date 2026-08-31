@@ -59,10 +59,19 @@ it('returns the full body for requests declaring a null wrapper', function () {
     expect($result)->toBe(['version' => '2.0']);
 });
 
-it('throws on unsuccessful responses', function () {
+it('exposes unsuccessful response status without changing the exception type', function () {
     $mockClient = new MockClient([
         GetInvoices::class => MockResponse::make(['error' => 'nope'], 500),
     ]);
 
-    connector()->sevSend(new GetInvoices(), $mockClient);
-})->throws(Exception::class);
+    try {
+        connector()->sevSend(new GetInvoices(), $mockClient);
+    } catch (Exception $exception) {
+        expect($exception::class)->toBe(Exception::class)
+            ->and($exception->getCode())->toBe(500);
+
+        return;
+    }
+
+    throw new RuntimeException('Expected an unsuccessful sevDesk response to throw.');
+});
