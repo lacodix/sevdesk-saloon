@@ -79,6 +79,11 @@ With the connector you can just consume all existing API resources
     $sevdeskSaloon->invoice()->sendViaEmail($invoiceId, $data);
 ``` 
 
+Invoice filtering sends the `customerInternalNote` query key, including when using
+`invoice()->findByCustomerInternalNote($note)`. The existing PHP named argument
+`customerIntenalNote` on `GetInvoices` and `invoice()->get()` is retained for compatibility;
+it is translated to the correctly spelled outgoing key.
+
 ## Mock API Calls in your tests
 
 Since this package is based on Saloon, you can just use the MockClient to mock all requests in your tests.

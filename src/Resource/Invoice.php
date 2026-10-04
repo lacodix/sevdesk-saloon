@@ -36,7 +36,7 @@ class Invoice extends Resource
      * @param int $endDate Retrieve all invoices with a date equal or lower
      * @param int $contactid Retrieve all invoices with this contact. Must be provided with contact[objectName]
      * @param string $contactobjectName Only required if contact[id] was provided. 'Contact' should be used as value.
-     * @param string $customerIntenalNote Retrieve invoices with this customer internal note. The misspelling is part of the sevDesk API.
+     * @param string $customerIntenalNote Retrieve invoices with this customer internal note. The spelling is retained for named-argument compatibility; the outgoing key is customerInternalNote.
      */
     public function get(
         ?int $status = null,

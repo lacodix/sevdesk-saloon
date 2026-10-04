@@ -24,7 +24,7 @@ class GetInvoices extends Request
      * @param int|null $endDate Retrieve all invoices with a date equal or lower
      * @param int|null $contactid Retrieve all invoices with this contact. Must be provided with contact[objectName]
      * @param string|null $contactobjectName Only required if contact[id] was provided. 'Contact' should be used as value.
-     * @param string|null $customerIntenalNote Retrieve invoices with this customer internal note. The misspelling is part of the sevDesk API.
+     * @param string|null $customerIntenalNote Retrieve invoices with this customer internal note. The spelling is retained for named-argument compatibility; the outgoing key is customerInternalNote.
      */
     public function __construct(
         protected float|int|null $status = null,
@@ -51,7 +51,7 @@ class GetInvoices extends Request
             'endDate' => $this->endDate,
             'contact[id]' => $this->contactid,
             'contact[objectName]' => $this->contactobjectName,
-            'customerIntenalNote' => $this->customerIntenalNote,
+            'customerInternalNote' => $this->customerIntenalNote,
         ]);
     }
 }

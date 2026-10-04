@@ -70,7 +70,7 @@ it('falls back to the connector tax rule for existing callers', function () {
     });
 });
 
-it('sends the official misspelled invoice correlation filter', function () {
+it('sends the correct invoice customer internal note filter', function () {
     $mockClient = new MockClient([
         GetInvoices::class => MockResponse::make(['objects' => []]),
     ]);
@@ -82,8 +82,69 @@ it('sends the official misspelled invoice correlation filter', function () {
     $mockClient->assertSent(function ($request): bool {
         return $request instanceof GetInvoices
             && $request->query()->all() === [
-                'customerIntenalNote' => 'membergy-invoice:test',
+                'customerInternalNote' => 'membergy-invoice:test',
             ];
+    });
+});
+
+it('sends the correct invoice filter with the existing request named argument', function () {
+    $mockClient = new MockClient([
+        GetInvoices::class => MockResponse::make(['objects' => []]),
+    ]);
+
+    connector()->sevSend(new GetInvoices(customerIntenalNote: 'membergy-invoice:test'), $mockClient);
+
+    $mockClient->assertSent(function ($request): bool {
+        return $request instanceof GetInvoices
+            && $request->query()->all() === [
+                'customerInternalNote' => 'membergy-invoice:test',
+            ];
+    });
+});
+
+it('keeps other invoice filters with the existing resource named argument', function () {
+    $mockClient = new MockClient([
+        GetInvoices::class => MockResponse::make(['objects' => []]),
+    ]);
+    $connector = connector();
+    $connector->withMockClient($mockClient);
+
+    $connector->invoice()->get(
+        status: 100,
+        invoiceNumber: 'RE-1',
+        startDate: 10,
+        endDate: 20,
+        contactid: 30,
+        contactobjectName: 'Contact',
+        customerIntenalNote: 'membergy-invoice:test',
+    );
+
+    $mockClient->assertSent(function ($request): bool {
+        return $request instanceof GetInvoices
+            && $request->query()->all() === [
+                'status' => 100,
+                'invoiceNumber' => 'RE-1',
+                'startDate' => 10,
+                'endDate' => 20,
+                'contact[id]' => 30,
+                'contact[objectName]' => 'Contact',
+                'customerInternalNote' => 'membergy-invoice:test',
+            ];
+    });
+});
+
+it('sends no invoice filters when none are supplied', function () {
+    $mockClient = new MockClient([
+        GetInvoices::class => MockResponse::make(['objects' => []]),
+    ]);
+    $connector = connector();
+    $connector->withMockClient($mockClient);
+
+    $connector->invoice()->get();
+
+    $mockClient->assertSent(function ($request): bool {
+        return $request instanceof GetInvoices
+            && $request->query()->all() === [];
     });
 });
 
